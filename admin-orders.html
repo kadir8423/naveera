@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | Naveera Orders</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #f4f7f6; margin: 0; padding: 20px; }
+        .admin-container { max-width: 1000px; margin: 0 auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 10px; }
+        .order-card { 
+            background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: flex-start;
+            border-left: 5px solid #b76e79;
+        }
+        .order-info h3 { margin: 0 0 10px 0; color: #333; }
+        .order-info p { margin: 5px 0; font-size: 14px; color: #666; }
+        .status-badge { 
+            padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; 
+            text-transform: uppercase; margin-bottom: 10px; display: inline-block;
+        }
+        .badge-cod { background: #fff3e0; color: #ef6c00; }
+        .badge-wa { background: #e8f5e9; color: #2e7d32; }
+        
+        .action-area { text-align: right; }
+        .price-tag { font-size: 20px; font-weight: 700; color: #b76e79; margin-bottom: 15px; }
+        .btn-print { 
+            background: #222; color: white; border: none; padding: 10px 20px; 
+            border-radius: 8px; cursor: pointer; transition: 0.3s; font-size: 14px;
+        }
+        .btn-print:hover { background: #444; }
+        
+        .nav-btns { display: flex; gap: 10px; }
+        .btn-logout { background: #ff4d4d; color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; }
+
+        @media (max-width: 768px) {
+            .order-card { flex-direction: column; }
+            .action-area { text-align: left; margin-top: 20px; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="admin-container">
+    <div class="header">
+        <h1>📦 Naveera Orders</h1>
+        <div class="nav-btns">
+            <button onclick="location.reload()" class="btn-print" style="background:#b76e79;"><i class="fas fa-sync"></i> Refresh</button>
+            <button onclick="logoutAdmin()" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+    </div>
+
+    <div id="orders-list">
+        <p style="text-align:center;">Orders load ho rahe hain, thoda sabr karein bhai...</p>
+    </div>
+</div>
+
+<script type="module">
+    // 🛡️ SECURITY CHECK: Pehle check karenge banda logged in hai ya nahi
+    if (sessionStorage.getItem("adminLoggedIn") !== "true") {
+        alert("Bhai, pehle login toh kar lo!");
+        window.location.href = "admin-login.html";
+    }
+
+    // Logout Function
+    window.logoutAdmin = function() {
+        sessionStorage.removeItem("adminLoggedIn");
+        window.location.href = "admin-login.html";
+    };
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDKKtWZYnGOIK4vcKCwaNohBsEGSyXF0iA",
+        authDomain: "naveera-e82ab.firebaseapp.com",
+        projectId: "naveera-e82ab",
+        storageBucket: "naveera-e82ab.firebasestorage.app",
+        messagingSenderId: "531422327110",
+        appId: "1:531422327110:web:90d3092ec932fbb3643547"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    async function loadOrders() {
+        const ordersDiv = document.getElementById('orders-list');
+        try {
+            const q = query(collection(db, "orders"), orderBy("orderDate", "desc"));
+            const querySnapshot = await getDocs(q);
+            
+            if (querySnapshot.empty) {
+                ordersDiv.innerHTML = "<p style='text-align:center;'>Abhi tak koi order nahi aaya hai bhai!</p>";
+                return;
+            }
+
+            ordersDiv.innerHTML = "";
+            querySnapshot.forEach((doc) => {
+                const order = doc.data();
+                const badgeClass = order.paymentMethod === 'COD' ? 'badge-cod' : 'badge-wa';
+
+                ordersDiv.innerHTML += `
+                    <div class="order-card">
+                        <div class="order-info">
+                            <span class="status-badge ${badgeClass}">${order.paymentMethod}</span>
+                            <h3>${order.customerName}</h3>
+                            <p><i class="fas fa-phone"></i> ${order.phone}</p>
+                            <p><i class="fas fa-map-marker-alt"></i> ${order.address}</p>
+                            <p><i class="fas fa-shopping-bag"></i> <strong>Items:</strong> ${order.productNames}</p>
+                            <p><i class="fas fa-calendar"></i> ${order.orderDate}</p>
+                            <small style="color:#aaa;">Order ID: ${doc.id}</small>
+                        </div>
+                        <div class="action-area">
+                            <div class="price-tag">₹${order.totalPrice}</div>
+                            <button class="btn-print" onclick="window.location.href='invoice.html?id=${doc.id}'">
+                                <i class="fas fa-file-invoice"></i> View Invoice
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        } catch (error) {
+            console.error("Error loading orders:", error);
+            ordersDiv.innerHTML = "<p>Orders load karne mein error aaya. Console check karein.</p>";
+        }
+    }
+
+    loadOrders();
+</script>
+
+</body>
+</html>

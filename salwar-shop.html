@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banarasi Salwar Suits Collection | Naveera</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { margin:0; font-family: 'Poppins', sans-serif; background:#f5f5f5; color: #333; overflow-x: hidden; }
+        a { text-decoration:none; color: inherit; }
+
+        /* --- HOME STYLE HEADER --- */
+        .announcement-bar {
+            background: #000; color: white; height: 40px; display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;
+            position: sticky; top: 0; z-index: 2000;
+        }
+        .navbar { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 10px 50px; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
+            position: sticky; top: 40px; z-index: 1000; height: 70px;
+        }
+        .logo { font-size: 28px; font-weight: 700; color: #000; flex: 0 0 200px; }
+        .nav-center { display: flex; gap: 25px; align-items: center; justify-content: center; flex: 1; }
+        .nav-right { display: flex; align-items: center; justify-content: flex-end; gap: 20px; flex: 0 0 250px; }
+        .nav-right i { font-size: 20px; cursor: pointer; color: #333; }
+        .cart-wrapper { position: relative; }
+        #cartCount { position: absolute; top: -10px; right: -10px; background: #b76e79; color: white; font-size: 10px; padding: 2px 6px; border-radius: 50%; font-weight: 700; }
+
+        /* DROPDOWN */
+        .dropdown { position: relative; display: inline-block; }
+        .dropbtn { font-weight: 500; font-size: 15px; cursor: pointer; padding: 20px 0; display: block; }
+        .dropdown-content {
+            display: none; position: absolute; background-color: white; min-width: 200px; 
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1); z-index: 1100; border-radius: 8px; 
+            top: 100%; left: 50%; transform: translateX(-50%);
+        }
+        .dropdown-content a { color: #444; padding: 12px 20px; display: block; font-size: 14px; border-bottom: 1px solid #f8f8f8; }
+        .dropdown:hover .dropdown-content { display: block; }
+
+        /* --- LAYOUT --- */
+        .container { display: flex; padding: 40px 50px; gap: 30px; max-width: 1400px; margin: auto; min-height: 60vh; }
+        .sidebar { width: 250px; background: #fff; padding: 25px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.05); height: fit-content; }
+        .main-grid { flex:1; }
+        .main-grid h1 { margin-bottom:10px; font-size: 32px; font-weight: 700; color: #222; }
+        
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; }
+        
+        /* PRODUCT CARD */
+        .product-card { background:#fff; padding:15px; border-radius:12px; text-align:center; box-shadow:0 4px 12px rgba(0,0,0,0.05); transition:0.3s; }
+        .product-card:hover { transform: translateY(-5px); }
+        .product-card img { width:100%; height:350px; object-fit: contain; background: #fdfdfd; border-radius:8px; }
+        
+        .product-title { font-weight:600; margin:15px 0 5px; font-size:16px; color: #444; }
+        .price { color:#b76e79; font-weight:700; font-size:18px; }
+        .old-price { text-decoration:line-through; font-size:14px; color:#888; margin-right:8px; }
+        .add-cart-btn { margin-top:15px; padding:12px; background:#b76e79; color:white; border:none; border-radius:6px; cursor:pointer; width:100%; font-weight:600; }
+
+        /* --- HOME STYLE FOOTER --- */
+        footer { background: #1a1a1a; color: #e0e0e0; padding: 80px 0 30px; margin-top: 60px; }
+        .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.5fr; gap: 40px; padding: 0 20px; text-align: left; }
+        .footer-box h3 { color: white; font-size: 18px; margin-bottom: 25px; text-transform: uppercase; }
+        .footer-links { list-style: none; padding: 0; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: #aaa; font-size: 14px; transition: 0.3s; }
+        .footer-links a:hover { color: #b76e79; padding-left: 8px; }
+        .footer-bottom { border-top: 1px solid #333; margin-top: 60px; padding-top: 30px; text-align: center; font-size: 12px; color: #666; }
+
+        @media (max-width: 900px) {
+            .container { flex-direction: column; padding: 20px; }
+            .sidebar { display: none; }
+            .nav-center { display: none; }
+            .footer-container { grid-template-columns: 1fr; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="announcement-bar">
+        ✨ AUTHENTIC BANARASI DIRECT FROM VARANASI ✨
+    </div>
+
+    <div class="navbar">
+        <a href="index.html" class="logo">Naveera</a>
+        <div class="nav-center">
+            <a href="index.html">Home</a>
+            <div class="dropdown">
+                <span class="dropbtn">Sarees ▾</span>
+                <div class="dropdown-content">
+                    <a href="sarees.html?sub=Cotton">Cotton</a>
+                    <a href="sarees.html?sub=Pure%20Silk">Pure Silk</a>
+                    <a href="sarees.html?sub=Banarasi%20Silk">Banarasi Silk</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span class="dropbtn">Salwar Suits ▾</span>
+                <div class="dropdown-content">
+                    <a href="salwar-shop.html?sub=Pure%20Silk">Pure Silk</a>
+                    <a href="salwar-shop.html?sub=Chiniya%20Suit">Chiniya Suit</a>
+                    <a href="salwar-shop.html?sub=Cotton">Cotton</a>
+                </div>
+            </div>
+            <a href="#">Dupattas</a>
+        </div>
+        <div class="nav-right">
+            <a href="cart.html" class="cart-wrapper">
+                <i class="fas fa-shopping-bag"></i>
+                <span id="cartCount">0</span>
+            </a>
+            <div id="user-area"><a href="login.html">Login</a></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <h3 style="border-bottom: 2px solid #f5f5f5; padding-bottom: 10px;">Filters</h3>
+            <p style="font-size: 14px; color: #666;"><strong>Stock:</strong> In Stock</p>
+            <p style="font-size: 14px; color: #666; margin-top: 10px;"><strong>Region:</strong> Varanasi Handloom</p>
+        </div>
+
+        <div class="main-grid">
+            <h1 id="page-heading">Salwar Suits</h1>
+            <p id="page-description">Exquisite unstitched and semi-stitched ethnic wear.</p>
+            
+            <div class="products-grid" id="salwar-list">
+                <p style="grid-column: 1/-1; text-align: center;">Loading amazing collection...</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-box">
+                <h2 style="color: white; margin-bottom: 15px;">NAVEERA</h2>
+                <p style="font-size: 14px; color: #aaa;">Authentic Banarasi Handloom from the heart of Kashi.</p>
+            </div>
+            <div class="footer-box">
+                <h3>Quick Shop</h3>
+                <ul class="footer-links">
+                    <li><a href="sarees.html">Banarasi Sarees</a></li>
+                    <li><a href="salwar-shop.html">Salwar Suits</a></li>
+                </ul>
+            </div>
+            <div class="footer-box">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-box">
+                <h3>Contact</h3>
+                <p style="font-size: 14px; color: #aaa;">Varanasi, UP, India<br>support@naveera.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Naveera. Built with ❤️ in Varanasi.</p>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDKKtWZYnGOIK4vcKCwaNohBsEGSyXF0iA",
+            authDomain: "naveera-e82ab.firebaseapp.com",
+            projectId: "naveera-e82ab",
+            storageBucket: "naveera-e82ab.firebasestorage.app",
+            messagingSenderId: "531422327110",
+            appId: "1:531422327110:web:90d3092ec932fbb3643547"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        async function loadSalwarData() {
+            const params = new URLSearchParams(window.location.search);
+            const sub = params.get('sub');
+            
+            let q;
+            if(sub) {
+                document.getElementById("page-heading").innerText = sub + " Suits";
+                q = query(collection(db, "products"), 
+                          where("category", "==", "Salwar Suit"), 
+                          where("subCategory", "==", sub));
+            } else {
+                q = query(collection(db, "products"), where("category", "==", "Salwar Suit"));
+            }
+
+            const snapshot = await getDocs(q);
+            const listDiv = document.getElementById("salwar-list");
+            listDiv.innerHTML = "";
+            
+            if (snapshot.empty) {
+                listDiv.innerHTML = "<div style='grid-column: 1/-1; text-align: center; padding: 50px;'>Is category mein filhaal koi suit available nahi hai.</div>";
+                return;
+            }
+
+            snapshot.forEach(doc => {
+                const item = doc.data();
+                
+                // Smart Image Fix
+                let productImage = 'https://via.placeholder.com/300?text=No+Image';
+                if (item.images && Array.isArray(item.images) && item.images.length > 0) {
+                    productImage = item.images[0];
+                } else if (item.image) {
+                    productImage = item.image;
+                }
+
+                listDiv.innerHTML += `
+                    <div class="product-card">
+                        <a href="product-detail.html?id=${doc.id}">
+                            <img src="${productImage}" alt="${item.name}">
+                            <div class="product-title">${item.name}</div>
+                        </a>
+                        <div class="price-container">
+                            ${item.oldPrice ? `<span class="old-price">₹${item.oldPrice}</span>` : ""}
+                            <span class="price">₹${item.price}</span>
+                        </div>
+                        <button class="add-cart-btn" onclick="addToCart('${doc.id}', '${item.name}', ${item.price}, '${productImage}')">Add to Cart</button>
+                    </div>`;
+            });
+        }
+
+        // Auth Check
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById('user-area').innerHTML = `<span>Hi, ${user.email.split('@')[0]}</span>`;
+            }
+        });
+
+        // Cart Sync
+        window.addToCart = (id, name, price, image) => {
+            let cart = JSON.parse(localStorage.getItem('naveera_cart')) || [];
+            cart.push({id, name, price, image});
+            localStorage.setItem('naveera_cart', JSON.stringify(cart));
+            document.getElementById('cartCount').innerText = cart.length;
+            alert(name + " added to cart!");
+        };
+
+        const initialCart = JSON.parse(localStorage.getItem('naveera_cart')) || [];
+        document.getElementById('cartCount').innerText = initialCart.length;
+
+        loadSalwarData();
+    </script>
+</body>
+</html>

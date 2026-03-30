@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cart | Naveera</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #fcfcfc; margin: 0; padding: 20px; }
+        .cart-container { max-width: 800px; margin: 40px auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+        .cart-item { display: flex; align-items: center; gap: 20px; padding: 15px 0; border-bottom: 1px solid #eee; }
+        .cart-item img { width: 80px; height: 100px; object-fit: cover; border-radius: 8px; }
+        .item-details { flex: 1; }
+        .item-details h4 { margin: 0; font-size: 18px; }
+        .item-price { color: #b76e79; font-weight: 600; }
+        .remove-btn { color: #ff4d4d; cursor: pointer; font-size: 14px; }
+        .cart-total { margin-top: 20px; text-align: right; font-size: 20px; font-weight: 700; }
+        .checkout-btn { width: 100%; padding: 15px; background: #222; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 20px; font-size: 16px; }
+        .empty-msg { text-align: center; padding: 40px; color: #888; }
+    </style>
+</head>
+<body>
+
+<div class="cart-container">
+    <h2>Shopping Bag</h2>
+    <div id="cart-items-list">
+        </div>
+    <div id="total-area" style="display:none;">
+        <div class="cart-total">Total: ₹<span id="grand-total">0</span></div>
+        <button class="checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
+    </div>
+</div>
+
+<script>
+    function displayCart() {
+        const cart = JSON.parse(localStorage.getItem('naveera_cart')) || [];
+        const container = document.getElementById('cart-items-list');
+        const totalArea = document.getElementById('total-area');
+        
+        if (cart.length === 0) {
+            container.innerHTML = `<div class="empty-msg"><i class="fas fa-shopping-bag fa-3x"></i><p>Aapka bag khali hai bhai!</p><a href="index.html" style="color:#b76e79;">Shopping shuru karein</a></div>`;
+            totalArea.style.display = 'none';
+            return;
+        }
+
+        totalArea.style.display = 'block';
+        container.innerHTML = '';
+        let total = 0;
+
+        cart.forEach((item, index) => {
+            total += parseInt(item.price);
+            container.innerHTML += `
+                <div class="cart-item">
+                    <img src="${item.image}" alt="">
+                    <div class="item-details">
+                        <h4>${item.name}</h4>
+                        <span class="item-price">₹${item.price}</span>
+                    </div>
+                    <div class="remove-btn" onclick="removeItem(${index})"><i class="fas fa-trash"></i></div>
+                </div>
+            `;
+        });
+        document.getElementById('grand-total').innerText = total;
+    }
+
+    function removeItem(index) {
+        let cart = JSON.parse(localStorage.getItem('naveera_cart')) || [];
+        cart.splice(index, 1);
+        localStorage.setItem('naveera_cart', JSON.stringify(cart));
+        displayCart();
+    }
+
+    function proceedToCheckout() {
+        const cart = JSON.parse(localStorage.getItem('naveera_cart'));
+        // Saare items ka naam ek sath bhejenge
+        const names = cart.map(i => i.name).join(', ');
+        const totalPrice = document.getElementById('grand-total').innerText;
+        window.location.href = `checkout.html?name=${encodeURIComponent(names)}&price=${totalPrice}`;
+    }
+
+    displayCart();
+</script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Naveera</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #fdfafb; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .auth-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); width: 100%; max-width: 400px; text-align: center; }
+        h2 { color: #b76e79; margin-bottom: 20px; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; outline: none; }
+        input:focus { border-color: #b76e79; }
+        .btn-auth { width: 100%; padding: 12px; background: #b76e79; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; margin-top: 10px; transition: 0.3s; }
+        .btn-auth:hover { background: #a15b66; }
+        .toggle-link { margin-top: 15px; font-size: 14px; color: #666; cursor: pointer; display: block; text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="auth-box">
+    <h2 id="authTitle">Customer Login</h2>
+    <input type="email" id="email" placeholder="Email Address" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button class="btn-auth" id="authBtn">Login</button>
+    <span class="toggle-link" id="toggleLink">Naya account banana hai? Sign Up</span>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDKKtWZYnGOIK4vcKCwaNohBsEGSyXF0iA",
+        authDomain: "naveera-e82ab.firebaseapp.com",
+        projectId: "naveera-e82ab",
+        appId: "1:531422327110:web:90d3092ec932fbb3643547"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    let isLogin = true;
+
+    // Toggle between Login and Sign Up
+    const toggleLink = document.getElementById('toggleLink');
+    const authTitle = document.getElementById('authTitle');
+    const authBtn = document.getElementById('authBtn');
+
+    toggleLink.onclick = () => {
+        isLogin = !isLogin;
+        authTitle.innerText = isLogin ? "Customer Login" : "Create Account";
+        authBtn.innerText = isLogin ? "Login" : "Sign Up";
+        toggleLink.innerText = isLogin ? "Naya account banana hai? Sign Up" : "Pehle se account hai? Login";
+    };
+
+    authBtn.onclick = async () => {
+        const emailValue = document.getElementById('email').value.trim(); // Trim space hata dega
+        const passValue = document.getElementById('password').value;
+
+        if(!emailValue || !passValue) {
+            alert("Bhai, email aur password dono daalo!");
+            return;
+        }
+
+        try {
+            if(isLogin) {
+                await signInWithEmailAndPassword(auth, emailValue, passValue);
+                alert("Namaste! Login ho gaya.");
+            } else {
+                await createUserWithEmailAndPassword(auth, emailValue, passValue);
+                alert("Account ban gaya guru! Welcome to Naveera.");
+            }
+            window.location.href = "index.html";
+        } catch (error) {
+            console.error("Auth Error Code:", error.code);
+            
+            // User-friendly error messages
+            if (error.code === 'auth/invalid-email') {
+                alert("Bhai, email ka format galat hai. Sahi email likho!");
+            } else if (error.code === 'auth/weak-password') {
+                alert("Password kam se kam 6 digits ka rakho guru.");
+            } else if (error.code === 'auth/email-already-in-use') {
+                alert("Ye email pehle se register hai, Login kar lo.");
+            } else if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
+                alert("Email ya Password galat hai!");
+            } else {
+                alert("Kuch galti hui: " + error.message);
+            }
+        }
+    };
+
+    // Auto-redirect agar pehle se login hai
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            console.log("User already logged in:", user.email);
+            // Agar aap chaho ki user login page na dekh sake agar logged in ho:
+            // window.location.href = "index.html";
+        }
+    });
+</script>
+</body>
+</html>

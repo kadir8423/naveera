@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Print Invoice | Naveera</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background: #eee; }
+        .invoice-wrapper { width: 210mm; min-height: 297mm; padding: 20mm; margin: 10mm auto; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.1); box-sizing: border-box; position: relative; }
+        
+        /* Invoice Header */
+        .header { display: flex; justify-content: space-between; border-bottom: 2px solid #333; padding-bottom: 10px; }
+        .logo { font-size: 28px; font-weight: bold; color: #b76e79; }
+        .title { text-align: right; text-transform: uppercase; color: #555; }
+
+        /* Details Section */
+        .details-grid { display: grid; grid-template-columns: 1fr 1fr; margin-top: 20px; gap: 40px; }
+        .bill-to h4, .ship-to h4 { margin-bottom: 5px; text-transform: uppercase; color: #888; font-size: 12px; }
+        
+        /* Table Styling */
+        table { width: 100%; border-collapse: collapse; margin-top: 30px; }
+        th { background: #f8f8f8; text-align: left; padding: 12px; border-bottom: 2px solid #eee; }
+        td { padding: 12px; border-bottom: 1px solid #eee; }
+        .total-row { font-size: 18px; font-weight: bold; background: #fff5f6; }
+
+        /* Shipping Label */
+        .shipping-label-area { 
+            margin-top: 50px; border-top: 2px dashed #ccc; padding-top: 30px; 
+            display: flex; justify-content: center; 
+        }
+        .label-box { 
+            width: 100mm; border: 2px solid #000; padding: 15px; border-radius: 10px; 
+            position: relative; overflow: hidden;
+        }
+        .label-box h2 { margin: 0 0 10px 0; font-size: 16px; border-bottom: 1px solid #000; padding-bottom: 5px; }
+        
+        /* Buttons */
+        .print-nav { position: fixed; top: 20px; right: 20px; z-index: 100; display: flex; gap: 10px; }
+        .btn-p { padding: 10px 20px; background: #b76e79; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+
+        @media print {
+            body { background: white; }
+            .invoice-wrapper { margin: 0; box-shadow: none; width: 100%; }
+            .print-nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="print-nav">
+    <button class="btn-p" onclick="window.print()"><i class="fas fa-print"></i> PRINT NOW</button>
+    <button class="btn-p" style="background:#333;" onclick="history.back()"><i class="fas fa-arrow-left"></i> BACK</button>
+</div>
+
+<div class="invoice-wrapper" id="printableArea">
+    <div class="header">
+        <div class="logo">NAVEERA</div>
+        <div class="title">
+            <h1>TAX INVOICE</h1>
+            <p>Order ID: <span id="invOrderId">...</span></p>
+        </div>
+    </div>
+
+    <div class="details-grid">
+        <div class="bill-to">
+            <h4>Sold By:</h4>
+            <strong>NAVEERA FASHION HUB</strong><br>
+            Varanasi, Uttar Pradesh, India<br>
+            Phone: +91 9876543210
+        </div>
+        <div class="ship-to">
+            <h4>Customer Details:</h4>
+            <strong id="invCustName">...</strong><br>
+            <span id="invCustAddress">...</span><br>
+            Phone: <span id="invCustPhone">...</span>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Qty</th>
+                <th style="text-align: right;">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="invItems">...</td>
+                <td>1</td>
+                <td style="text-align: right;" id="invPrice">...</td>
+            </tr>
+            <tr class="total-row">
+                <td colspan="2" style="text-align: right;">GRAND TOTAL:</td>
+                <td style="text-align: right;">₹<span id="invTotal">0</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p style="margin-top: 20px; font-size: 12px; color: #666;">* This is a computer-generated invoice. No signature required.</p>
+
+    <div class="shipping-label-area">
+        <div class="label-box">
+            <h2>SHIP TO:</h2>
+            <strong id="lblCustName" style="font-size: 20px;">...</strong><br>
+            <p id="lblCustAddress" style="font-size: 14px; margin: 5px 0;">...</p>
+            <p><strong>Contact:</strong> <span id="lblCustPhone">...</span></p>
+            <div style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 5px; font-size: 10px; display: flex; justify-content: space-between;">
+                <span>Seller: NAVEERA</span>
+                <span id="lblPayment">METHOD: ...</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    // 🛡️ SECURITY CHECK: Pehle check karenge admin logged in hai ya nahi
+    if (sessionStorage.getItem("adminLoggedIn") !== "true") {
+        alert("Bhai, unauthorized access allow nahi hai! Pehle login karein.");
+        window.location.href = "admin-login.html";
+    }
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDKKtWZYnGOIK4vcKCwaNohBsEGSyXF0iA",
+        authDomain: "naveera-e82ab.firebaseapp.com",
+        projectId: "naveera-e82ab",
+        storageBucket: "naveera-e82ab.firebasestorage.app",
+        messagingSenderId: "531422327110",
+        appId: "1:531422327110:web:90d3092ec932fbb3643547"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const orderId = urlParams.get('id');
+
+    async function loadInvoiceData() {
+        if(!orderId) {
+            alert("Bhai, Order ID gayab hai!");
+            return;
+        }
+
+        const docRef = doc(db, "orders", orderId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            
+            document.getElementById('invOrderId').innerText = orderId;
+            document.getElementById('invCustName').innerText = data.customerName;
+            document.getElementById('invCustPhone').innerText = data.phone;
+            document.getElementById('invCustAddress').innerText = data.address;
+            document.getElementById('invItems').innerText = data.productNames;
+            document.getElementById('invPrice').innerText = "₹" + data.totalPrice;
+            document.getElementById('invTotal').innerText = data.totalPrice;
+
+            document.getElementById('lblCustName').innerText = data.customerName;
+            document.getElementById('lblCustAddress').innerText = data.address;
+            document.getElementById('lblCustPhone').innerText = data.phone;
+            document.getElementById('lblPayment').innerText = "METHOD: " + data.paymentMethod;
+        } else {
+            alert("Bhai, database mein ye order nahi mila!");
+            window.location.href = "admin-orders.html";
+        }
+    }
+
+    loadInvoiceData();
+</script>
+
+</body>
+</html>

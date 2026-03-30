@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Naveera</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #fcfcfc; padding: 20px; margin: 0; }
+        .checkout-container { max-width: 500px; margin: 40px auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        h2 { text-align: center; color: #b76e79; margin-bottom: 20px; }
+        label { font-size: 14px; font-weight: 600; color: #555; display: block; margin-top: 15px; }
+        input, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-family: inherit; }
+        
+        .order-summary { background: #fff5f6; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #b76e79; }
+        
+        .payment-methods { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+        .method-btn { 
+            padding: 15px; border-radius: 8px; font-weight: 700; cursor: pointer; 
+            font-size: 15px; text-transform: uppercase; border: none; 
+            display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s;
+        }
+        .wa-btn { background: #25D366; color: white; }
+        .wa-btn:hover { background: #1eb954; transform: translateY(-2px); }
+        .cod-btn { background: #222; color: white; }
+        .cod-btn:hover { background: #444; transform: translateY(-2px); }
+        
+        .divider { text-align: center; margin: 15px 0; color: #888; font-size: 14px; position: relative; }
+        .divider::before, .divider::after { content: ""; position: absolute; top: 50%; width: 38%; height: 1px; background: #eee; }
+        .divider::before { left: 0; } .divider::after { right: 0; }
+
+        /* MAGIC POPUP STYLING */
+        .popup-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center;
+            backdrop-filter: blur(8px);
+        }
+        .success-popup {
+            background: white; padding: 40px; border-radius: 25px; text-align: center;
+            max-width: 380px; width: 90%; transform: scale(0.5); opacity: 0; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .popup-active .success-popup { transform: scale(1); opacity: 1; }
+        
+        .checkmark-wrapper {
+            width: 100px; height: 100px; background: #25D366; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+        }
+        .checkmark-wrapper i { color: white; font-size: 50px; animation: bounceIn 0.6s ease-out; }
+        
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.1); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .ok-btn {
+            margin-top: 25px; padding: 15px; background: #b76e79; color: white;
+            border: none; border-radius: 12px; font-weight: 600; cursor: pointer; 
+            width: 100%; font-size: 16px; transition: 0.3s;
+        }
+        .ok-btn:hover { background: #a35d68; }
+    </style>
+</head>
+<body>
+
+<div class="checkout-container">
+    <h2>Complete Your Order</h2>
+    <div class="order-summary" id="order-summary"></div>
+    
+    <label>Full Name</label>
+    <input type="text" id="custName" placeholder="Enter your name">
+
+    <label>Phone Number</label>
+    <input type="text" id="custPhone" placeholder="Enter mobile number">
+
+    <label>Full Delivery Address (with Pincode)</label>
+    <textarea id="custAddress" rows="4" placeholder="House no, Area, Landmark, City, State, Pincode"></textarea>
+    
+    <div class="payment-methods">
+        <button class="method-btn wa-btn" onclick="placeOrder('WhatsApp')">
+            <i class="fab fa-whatsapp"></i> Order & Pay via WhatsApp
+        </button>
+        <div class="divider">OR</div>
+        <button class="method-btn cod-btn" onclick="placeOrder('COD')">
+            <i class="fas fa-truck"></i> Cash on Delivery (COD)
+        </button>
+    </div>
+</div>
+
+<div class="popup-overlay" id="orderPopup">
+    <div class="success-popup">
+        <div class="checkmark-wrapper"><i class="fas fa-check"></i></div>
+        <h2 style="color: #333; margin-bottom: 10px;">Order Confirmed!</h2>
+        <p style="color: #666; line-height: 1.5;" id="popupMsg">Aapka order Naveera mein receive ho gaya hai. Hum jaldi hi aapse sampark karenge.</p>
+        <button class="ok-btn" onclick="finalRedirect()">EK DUM MAST!</button>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDKKtWZYnGOIK4vcKCwaNohBsEGSyXF0iA",
+        authDomain: "naveera-e82ab.firebaseapp.com",
+        projectId: "naveera-e82ab",
+        storageBucket: "naveera-e82ab.firebasestorage.app",
+        messagingSenderId: "531422327110",
+        appId: "1:531422327110:web:90d3092ec932fbb3643547"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const params = new URLSearchParams(window.location.search);
+    const pNames = params.get('name');
+    const pPrice = params.get('price');
+
+    document.getElementById('order-summary').innerHTML = `
+        <strong>Products:</strong> ${pNames} <br>
+        <strong>Grand Total:</strong> ₹${pPrice}
+    `;
+
+    // Global variables for redirection
+    let whatsappLink = "";
+
+    window.placeOrder = async function(method) {
+        const name = document.getElementById('custName').value;
+        const phone = document.getElementById('custPhone').value;
+        const address = document.getElementById('custAddress').value;
+
+        if(!name || !phone || !address) {
+            alert("Bhai, saari details bhariye tabhi order hoga!");
+            return;
+        }
+
+        const orderData = {
+            customerName: name,
+            phone: phone,
+            address: address,
+            productNames: pNames,
+            totalPrice: pPrice,
+            paymentMethod: method,
+            status: "New Order",
+            orderDate: new Date().toLocaleString()
+        };
+
+        try {
+            const docRef = await addDoc(collection(db, "orders"), orderData);
+            localStorage.removeItem('naveera_cart');
+
+            // --- SHOW MAGIC POPUP ---
+            const popup = document.getElementById('orderPopup');
+            popup.style.display = 'flex';
+            setTimeout(() => popup.classList.add('popup-active'), 10);
+
+            if(method === 'WhatsApp') {
+                const myNumber = "919876543210"; 
+                const message = `*NAVEERA - NEW ORDER (${method})* 🛍️\n\n` +
+                                `*Order ID:* ${docRef.id}\n` +
+                                `*Products:* ${pNames}\n` +
+                                `*Total Amount:* ₹${pPrice}\n\n` +
+                                `*Customer Details:*\n` +
+                                `- Name: ${name}\n` +
+                                `- Phone: ${phone}\n` +
+                                `- Address: ${address}\n\n` +
+                                `_Please process my order!_`;
+                
+                whatsappLink = `https://wa.me/${myNumber}?text=${encodeURIComponent(message)}`;
+                document.getElementById('popupMsg').innerText = "Aapka order receive ho gaya hai. Ab 'OK' dabate hi hum aapse WhatsApp par jud jayenge!";
+            } else {
+                whatsappLink = "index.html"; // COD ke liye home redirect
+            }
+
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Kuch gadbad ho gayi, kripya dobara koshish karein.");
+        }
+    };
+
+    window.finalRedirect = function() {
+        if(whatsappLink.includes("wa.me")) {
+            window.open(whatsappLink, '_blank');
+        }
+        window.location.href = "index.html";
+    };
+</script>
+
+</body>
+</html>

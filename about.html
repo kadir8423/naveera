@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Naveera - The Soul of Banaras</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #b76e79; --bg: #fdfafb; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); color: #333; margin: 0; line-height: 1.8; }
+        
+        .hero-about { 
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1610116303244-ee82f04f4c3f?auto=format&fit=crop&q=80&w=1200') center/cover no-repeat; 
+            color: white; padding: 100px 20px; text-align: center; 
+        }
+        .hero-about h1 { font-size: 42px; margin: 0; letter-spacing: 2px; }
+        .hero-about p { font-size: 18px; opacity: 0.9; }
+
+        .container { max-width: 900px; margin: -50px auto 60px; padding: 0 20px; }
+
+        .about-card { 
+            background: white; padding: 50px; border-radius: 20px; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.05); text-align: center;
+        }
+
+        .story-text { font-size: 16px; color: #555; margin-bottom: 40px; text-align: justify; }
+        
+        .values-grid { 
+            display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 40px;
+        }
+
+        .value-item { 
+            background: #fdfafb; padding: 25px; border-radius: 15px; 
+            border-bottom: 4px solid var(--primary); transition: 0.3s;
+        }
+        .value-item:hover { transform: translateY(-5px); box-shadow: 0 5px 20px rgba(183,110,121,0.1); }
+        .value-item h3 { color: var(--primary); margin-top: 0; font-size: 20px; }
+        .value-item p { font-size: 14px; margin: 0; color: #666; }
+
+        .back-btn { 
+            display: inline-block; margin-top: 40px; padding: 12px 30px; 
+            background: var(--primary); color: white; text-decoration: none; 
+            border-radius: 30px; font-weight: 600; transition: 0.3s;
+        }
+        .back-btn:hover { background: #a15b66; box-shadow: 0 5px 15px rgba(183,110,121,0.3); }
+
+        @media (max-width: 600px) { .values-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <div class="hero-about">
+        <h1>Our Story</h1>
+        <p>Woven with Love in the Heart of Kashi</p>
+    </div>
+
+    <div class="container">
+        <div class="about-card">
+            <div class="story-text">
+                <p>Welcome to <strong>Naveera</strong>, where tradition meets elegance. Rooted in the ancient city of Varanasi, our brand is a tribute to the timeless heritage of Banarasi craftsmanship. For centuries, the looms of Kashi have produced the finest silks in the world, and we are here to bring that royalty directly to your doorstep.</p>
+                <p>Naveera was born out of a passion for authentic handloom. We believe that a saree is not just a piece of clothing; it is a legacy passed down through generations. By working directly with local artisans, we ensure that every thread reflects the true spirit of Banaras.</p>
+            </div>
+
+            <div class="values-grid">
+                <div class="value-item">
+                    <h3>✨ Authenticity</h3>
+                    <p>We guarantee 100% genuine Banarasi Silk and handloom products, ethically sourced from local weavers.</p>
+                </div>
+                <div class="value-item">
+                    <h3>🤝 Ethical Sourcing</h3>
+                    <p>By removing middlemen, we empower our artisans with fair wages while offering you competitive prices.</p>
+                </div>
+                <div class="value-item">
+                    <h3>📍 Proudly Varansi</h3>
+                    <p>Our operations are based in the holy city of Kashi, ensuring every product carries the authentic vibe of the Ganga Ghats.</p>
+                </div>
+                <div class="value-item">
+                    <h3>🌟 Quality Check</h3>
+                    <p>Every saree undergoes a multi-level quality inspection before it is packed for our Naveera family.</p>
+                </div>
+            </div>
+
+            <a href="index.html" class="back-btn">Back to Store</a>
+        </div>
+    </div>
+
+    <footer style="text-align: center; padding: 30px; color: #aaa; font-size: 14px;">
+        © 2026 Naveera Enterprises | Pilikothi, Varanasi
+    </footer>
+
+</body>
+</html>

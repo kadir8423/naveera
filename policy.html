@@ -1,0 +1,92 @@
+<style>
+    /* Naya Premium Card Style */
+    .premium-card {
+        background: #fff;
+        border-radius: 20px;
+        padding: 35px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+        border: 1px solid #f0e6e7;
+        max-width: 800px;
+        margin: 40px auto;
+    }
+
+    .premium-card h2 {
+        color: #b76e79;
+        font-size: 26px;
+        font-weight: 600;
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .premium-card h2::before {
+        content: '🚚'; /* Truck icon */
+        font-size: 30px;
+    }
+
+    .policy-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+    }
+
+    .policy-item {
+        background: #fdfafb;
+        padding: 20px;
+        border-radius: 12px;
+        border-left: 4px solid #b76e79;
+        transition: 0.3s;
+    }
+
+    .policy-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(183,110,121,0.1);
+    }
+
+    .policy-item strong {
+        display: block;
+        color: #333;
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+
+    .policy-item p {
+        margin: 0;
+        font-size: 14px;
+        color: #666;
+        line-height: 1.5;
+    }
+
+    /* Mobile ke liye grid adjust karna */
+    @media (max-width: 600px) {
+        .policy-grid { grid-template-columns: 1fr; }
+    }
+</style>
+
+<div class="premium-card">
+    <h2>Shipping & Delivery</h2>
+    <p style="color: #888; margin-bottom: 30px;">Experience the luxury of Naveera with our premium, global-standard shipping services.</p>
+    
+    <div class="policy-grid">
+        <div class="policy-item">
+            <strong>✨ 100% Free Shipping</strong>
+            <p>We offer complimentary shipping on all orders across India. No minimum purchase required.</p>
+        </div>
+
+        <div class="policy-item">
+            <strong>⚡ Processing Time</strong>
+            <p>Your Banarasi masterpiece is typically dispatched within 24-48 hours of order placement.</p>
+        </div>
+
+        <div class="policy-item">
+            <strong>📅 Estimated Delivery</strong>
+            <p>Expected delivery within 5-7 business days, depending on your location in India.</p>
+        </div>
+
+        <div class="policy-item">
+            <strong>📦 Secure Packaging</strong>
+            <p>Packed in moisture-proof, premium material to ensure your saree arrives in mint condition.</p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banarasi Sarees | Naveera</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { margin:0; font-family: 'Poppins', sans-serif; background:#f5f5f5; color: #333; }
+        a { text-decoration:none; color:inherit; }
+
+        /* --- PREMIUM NAVBAR --- */
+        .navbar { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 10px 50px; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
+            position: sticky; top: 0; z-index: 1000; height: 70px;
+        }
+        .logo { font-size: 28px; font-weight: 700; color: #000; flex: 0 0 200px; }
+        .nav-center { display: flex; gap: 25px; align-items: center; justify-content: center; flex: 1; }
+        .nav-right { display: flex; align-items: center; justify-content: flex-end; gap: 20px; flex: 0 0 200px; }
+        .nav-right i { font-size: 20px; cursor: pointer; color: #333; }
+
+        /* DROPDOWN */
+        .dropdown { position: relative; display: inline-block; }
+        .dropbtn { font-weight: 500; font-size: 15px; cursor: pointer; padding: 25px 0; display: block; }
+        .dropdown-content {
+            display: none; position: absolute; background-color: white; min-width: 220px; 
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1); z-index: 1100; border-radius: 8px; 
+            top: 100%; left: 50%; transform: translateX(-50%); overflow: hidden;
+        }
+        .dropdown-content a { color: #444; padding: 12px 20px; display: block; font-size: 14px; border-bottom: 1px solid #f8f8f8; }
+        .dropdown:hover .dropdown-content { display: block; }
+
+        /* --- LAYOUT --- */
+        .container { display: flex; padding: 40px 50px; gap: 30px; max-width: 1400px; margin: auto; }
+        .sidebar { width: 250px; background: #fff; padding: 25px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.05); height: fit-content; }
+        .main-grid { flex:1; }
+        .main-grid h1 { margin-bottom:10px; font-size: 32px; font-weight: 700; color: #222; }
+        
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; }
+        
+        /* NO-CROP PRODUCT CARD */
+        .product-card { background:#fff; padding:15px; border-radius:12px; text-align:center; box-shadow:0 4px 12px rgba(0,0,0,0.05); transition:0.3s; position: relative; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        
+        /* Image Setting: contain use kiya hai taaki saree poori dikhe */
+        .product-card img { 
+            width:100%; height:350px; object-fit: contain; background: #f9f9f9; border-radius:8px; 
+        }
+        
+        .product-title { font-weight:600; margin:15px 0 5px; font-size:16px; color: #444; }
+        .price-container { margin: 10px 0; }
+        .price { color:#b76e79; font-weight:700; font-size:18px; }
+        .old-price { text-decoration:line-through; font-size:14px; color:#888; margin-right:8px; }
+        
+        .add-cart-btn { margin-top:10px; padding:12px; background:#b76e79; color:white; border:none; border-radius:6px; cursor:pointer; width:100%; font-weight:600; transition: 0.3s; }
+        .add-cart-btn:hover { background: #000; }
+        
+        footer { background: #111; color: #aaa; padding: 40px; text-align: center; margin-top: 50px; font-size: 14px; }
+        
+        @media (max-width: 900px) {
+            .container { flex-direction: column; padding: 20px; }
+            .sidebar { width: 100%; box-sizing: border-box; }
+            .navbar { padding: 10px 20px; }
+            .nav-center { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="index.html" class="logo">Naveera</a>
+        <div class="nav-center">
+            <a href="index.html">Home</a>
+            <div class="dropdown">
+                <span class="dropbtn">Sarees ▾</span>
+                <div class="dropdown-content">
+                    <a href="sarees.html?sub=Cotton">Cotton</a>
+                    <a href="sarees.html?sub=Pure%20Silk">Pure Silk</a>
+                    <a href="sarees.html?sub=Banarasi%20Silk">Banarasi Silk</a>
+                    <a href="sarees.html?sub=Georgette">Georgette</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span class="dropbtn">Salwar Suits ▾</span>
+                <div class="dropdown-content">
+                    <a href="salwar-shop.html?sub=Pure%20Silk">Pure Silk</a>
+                    <a href="salwar-shop.html?sub=Chiniya%20Suit">Chiniya Suit</a>
+                </div>
+            </div>
+            <a href="#">Dupattas</a>
+        </div>
+        <div class="nav-right">
+            <i class="fas fa-shopping-bag"></i>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <h3 style="border-bottom: 2px solid #f5f5f5; padding-bottom: 10px;">Filters</h3>
+            <p style="font-size: 14px; color: #666;"><strong>Location:</strong> Varanasi</p>
+            <p style="font-size: 14px; color: #666;"><strong>Stock:</strong> In Stock Only</p>
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+            <p style="font-size: 12px; color: #999;">Handwoven authenticity guaranteed by Naveera.</p>
+        </div>
+
+        <div class="main-grid">
+            <h1 id="page-heading">Banarasi Sarees</h1>
+            <p id="page-description">Authentic handcrafted elegance from the heart of Kashi.</p>
+            
+            <div class="products-grid" id="saree-list">
+                </div>
+        </div>
+    </div>
+
+    <footer>© 2026 Naveera Enterprises. Made with ❤️ in Varanasi.</footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDKKtWZYnGOIK4vcKCwaNohBsEGSyXF0iA",
+            authDomain: "naveera-e82ab.firebaseapp.com",
+            projectId: "naveera-e82ab",
+            storageBucket: "naveera-e82ab.firebasestorage.app",
+            messagingSenderId: "531422327110",
+            appId: "1:531422327110:web:90d3092ec932fbb3643547"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        async function loadSarees() {
+            const params = new URLSearchParams(window.location.search);
+            const sub = params.get('sub');
+            
+            let q;
+            if(sub) {
+                document.getElementById("page-heading").innerText = sub + " Sarees";
+                q = query(collection(db, "products"), 
+                          where("category", "==", "Saree"), 
+                          where("subCategory", "==", sub));
+            } else {
+                q = query(collection(db, "products"), where("category", "==", "Saree"));
+            }
+
+            const snap = await getDocs(q);
+            const listDiv = document.getElementById("saree-list");
+            listDiv.innerHTML = "";
+            
+            if (snap.empty) {
+                listDiv.innerHTML = "<div style='grid-column: 1/-1; text-align: center; padding: 50px;'>No sarees found in this category.</div>";
+                return;
+            }
+
+            snap.forEach(doc => {
+                const p = doc.data();
+                listDiv.innerHTML += `
+                    <div class="product-card">
+                        <a href="product-detail.html?id=${doc.id}">
+                            <img src="${p.image}" alt="${p.name}">
+                            <div class="product-title">${p.name}</div>
+                        </a>
+                        <div class="price-container">
+                            ${p.oldPrice ? `<span class="old-price">₹${p.oldPrice}</span>` : ""}
+                            <span class="price">₹${p.price}</span>
+                        </div>
+                        <button class="add-cart-btn" onclick="addToCart('${doc.id}', '${p.name}', ${p.price}, '${p.image}')">Add to Cart</button>
+                    </div>`;
+            });
+        }
+
+        window.addToCart = (id, name, price, image) => {
+            let cart = JSON.parse(localStorage.getItem('naveera_cart')) || [];
+            cart.push({id, name, price, image});
+            localStorage.setItem('naveera_cart', JSON.stringify(cart));
+            alert("Added to cart! 🛍️");
+        };
+
+        loadSarees();
+    </script>
+</body>
+</html>
