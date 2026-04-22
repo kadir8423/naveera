@@ -3,108 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Details | Naveera</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Product Details | Naveera Banaras</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        body { margin:0; font-family: 'Poppins', sans-serif; background:#fdfdfd; color: #333; overflow-x: hidden; }
+        :root { --accent: #b76e79; --text: #222; --border: #ececec; }
+        body { margin:0; font-family: 'Montserrat', sans-serif; background:#fff; color: var(--text); overflow-x: hidden; }
+        h1, h2, h3, .logo { font-family: 'Playfair Display', serif; }
         a { text-decoration:none; color:inherit; }
 
-        /* NAVBAR */
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 0 50px; background: white; box-shadow: 0 2px 15px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; height: 75px; }
-        .logo { font-size: 28px; font-weight: 700; color: #111; letter-spacing: 1px; }
+        /* --- NAVIGATION --- */
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 0 50px; background: white; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 2000; height: 80px; }
+        .logo { font-size: 30px; font-weight: 700; letter-spacing: 2px; }
 
-        .product-container { display: flex; max-width: 1200px; margin: 40px auto; gap: 40px; padding: 0 20px; align-items: flex-start; }
+        /* --- PRODUCT LAYOUT --- */
+        .product-container { display: flex; max-width: 1400px; margin: 0 auto; gap: 40px; padding: 40px; }
         
-        /* IMAGE GALLERY SECTION */
-        .image-section { flex: 1.1; position: sticky; top: 110px; display: flex; gap: 15px; }
-        .thumbnail-col { display: flex; flex-direction: column; gap: 10px; }
-        .thumb { width: 70px; height: 90px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 1px solid #eee; transition: 0.3s; }
-        .thumb:hover, .thumb.active { border-color: #b76e79; box-shadow: 0 0 10px rgba(183,110,121,0.2); }
+        /* Image Selection Logic */
+        .image-section { flex: 1.2; display: flex; gap: 15px; align-items: flex-start; position: sticky; top: 120px; }
+        .thumbnail-col { display: flex; flex-direction: column; gap: 10px; width: 80px; }
+        .thumb-img { width: 100%; height: 100px; object-fit: cover; cursor: pointer; border: 1px solid var(--border); transition: 0.3s; opacity: 0.6; }
+        .thumb-img.active { border-color: #000; opacity: 1; }
+        .main-display { flex: 1; }
+        .main-display img { width: 100%; height: 750px; object-fit: cover; background: #f9f9f9; }
+
+        .info-section { flex: 0.8; }
+        .breadcrumb { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 15px; }
+        .p-title { font-size: 32px; font-weight: 400; line-height: 1.2; margin-bottom: 10px; }
+        .price-row { margin: 20px 0; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        .p-price { font-size: 24px; font-weight: 500; }
+        .p-old { text-decoration: line-through; color: #999; font-size: 18px; margin-left: 10px; }
+        .tax-info { font-size: 12px; color: #666; display: block; margin-top: 5px; }
+
+        .action-btns { display: flex; flex-direction: column; gap: 12px; margin: 30px 0; }
+        .btn { padding: 18px; border-radius: 0; font-weight: 600; letter-spacing: 2px; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-size: 13px; border: 1px solid #000; }
+        .add-bag { background: #fff; color: #000; }
+        .add-bag:hover { background: #000; color: #fff; }
+        .buy-now { background: #000; color: #fff; }
+
+        .details-accordion { border-top: 1px solid var(--border); margin-top: 40px; }
+        .acc-item { border-bottom: 1px solid var(--border); }
+        .acc-btn { width: 100%; padding: 20px 0; background: none; border: none; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-family: 'Playfair Display'; font-size: 18px; }
+        .acc-content { max-height: 0; overflow: hidden; transition: 0.3s ease; font-size: 14px; line-height: 1.8; color: #555; }
+        .acc-item.active .acc-content { max-height: 1000px; padding-bottom: 20px; }
+
+        /* --- SLIDERS & GRIDS --- */
+        .slider-section { padding: 60px 40px; max-width: 1400px; margin: auto; position: relative; }
+        .section-title { text-align: center; font-size: 28px; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 2px; }
         
-        .main-display { flex: 1; position: relative; }
-        .main-img { 
-            width: 100%; border-radius: 15px; background: #f9f9f9; 
-            box-shadow: 0 15px 40px rgba(0,0,0,0.06); object-fit: contain; min-height: 500px; max-height: 650px;
-        }
-
-        /* INFO SECTION */
-        .info-section { flex: 1; display: flex; flex-direction: column; gap: 15px; }
-        .brand-tag { color: #b76e79; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; font-size: 12px; }
-        .p-title { font-size: 30px; font-weight: 700; line-height: 1.2; color: #111; margin: 0; }
+        .h-slider-wrapper { position: relative; display: flex; align-items: center; }
+        .h-slider { display: flex; gap: 20px; overflow-x: auto; scrollbar-width: none; scroll-behavior: smooth; padding: 10px 0; }
+        .h-slider::-webkit-scrollbar { display: none; }
         
-        .price-box { display: flex; align-items: center; gap: 15px; margin: 10px 0; }
-        .p-price { font-size: 32px; font-weight: 700; color: #b76e79; }
-        .p-old-price { text-decoration: line-through; color: #aaa; font-size: 20px; }
-        .p-discount { background: #fff5f6; color: #b76e79; padding: 4px 10px; border-radius: 4px; font-size: 14px; font-weight: 600; }
+        .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; background: #fff; border: 1px solid #000; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
+        .prev-btn { left: -20px; }
+        .next-btn { right: -20px; }
 
-        /* KEY FEATURES */
-        .features-list { margin: 20px 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
-        .features-list li { display: flex; align-items: flex-start; gap: 12px; font-size: 15px; color: #444; }
-        .features-list li i { color: #b76e79; margin-top: 4px; font-size: 16px; }
-
-        /* SPECS TABLE */
-        .specs-card { background: #f9f9f9; border-radius: 12px; padding: 20px; margin-top: 10px; border: 1px solid #f0f0f0; }
-        .specs-card h4 { margin: 0 0 15px 0; font-size: 16px; display: flex; align-items: center; gap: 10px; }
-        .specs-table { width: 100%; border-collapse: collapse; }
-        .specs-table td { padding: 10px 0; border-bottom: 1px solid #eee; font-size: 14px; }
-        .specs-table td:first-child { font-weight: 600; color: #777; width: 40%; }
-        .specs-table tr:last-child td { border-bottom: none; }
-
-        /* VARIANT BUTTONS */
-        .variant-btn {
-            padding: 8px 16px; border: 1.5px solid #ddd; background: white; 
-            border-radius: 6px; cursor: pointer; font-family: 'Poppins'; 
-            font-size: 13px; font-weight: 500; transition: 0.3s;
-        }
-
-        /* BUTTONS */
-        .btn-group { display: flex; flex-direction: column; gap: 12px; margin-top: 25px; }
-        .action-row { display: flex; gap: 15px; }
-        .buy-btn { flex: 1.5; background: #222; color: white; padding: 18px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 18px; border: none; transition: 0.3s; }
-        .add-btn { flex: 1; background: white; color: #b76e79; border: 2px solid #b76e79; border-radius: 10px; font-weight: 600; cursor: pointer; transition: 0.3s; }
-        .whatsapp-btn { background: #25D366; color: white; padding: 16px; border-radius: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 16px; }
+        .slide-card { min-width: 300px; cursor: pointer; transition: 0.3s; }
+        .slide-card img { width: 100%; height: 400px; object-fit: cover; }
+        .slide-meta { padding: 15px 0; text-align: center; }
         
-        .buy-btn:hover { background: #000; transform: translateY(-2px); }
-        .whatsapp-btn:hover { background: #128C7E; }
+        /* Auto Scroll Track */
+        .auto-track { display: flex; gap: 20px; animation: scrollLeft 30s linear infinite; width: max-content; }
+        @keyframes scrollLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .purchased-tag { font-size: 11px; color: #28a745; font-weight: 600; margin-top: 5px; }
 
-        .similar-section { max-width: 1200px; margin: 80px auto; padding: 0 20px; }
-        .similar-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 30px; }
-        .s-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; }
-        .s-card img { width: 100%; height: 320px; object-fit: cover; }
-        .s-info { padding: 15px; text-align: center; }
-
-        @media (max-width: 768px) {
+        /* Footer */
+        footer { background: #111; color: #fff; padding: 60px 50px; margin-top: 80px; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 50px; max-width: 1400px; margin: auto; }
+        
+        @media (max-width: 1024px) {
             .product-container { flex-direction: column; }
-            .image-section { position: relative; top: 0; flex-direction: column-reverse; }
-            .thumbnail-col { flex-direction: row; overflow-x: auto; padding-bottom: 10px; }
-            .similar-grid { grid-template-columns: 1fr 1fr; }
+            .image-section { flex-direction: column-reverse; position: static; }
+            .thumbnail-col { flex-direction: row; width: 100%; overflow-x: auto; }
+            .main-display img { height: 500px; }
         }
     </style>
 </head>
 <body>
 
     <div class="navbar">
-        <a href="index.html" class="logo">Naveera</a>
-        <div style="display: flex; gap: 20px; align-items: center;">
-            <a href="index.html" style="font-weight: 500;">Home</a>
-            <i class="fa fa-shopping-bag" style="font-size: 20px; cursor: pointer;" onclick="location.href='cart.html'"></i>
+        <a href="index.html" class="logo">NAVEERA</a>
+        <div style="display: flex; gap: 30px; align-items: center;">
+            <a href="index.html" style="font-size: 12px; letter-spacing: 1px;">COLLECTIONS</a>
+            <i class="fa fa-shopping-bag" style="cursor: pointer;" onclick="location.href='cart.html'"></i>
         </div>
     </div>
 
-    <div class="product-container" id="product-details">
-        <p style="text-align: center; width: 100%; padding: 50px;">Loading product magic...</p>
+    <div class="product-container" id="product-root">
+        <p style="text-align: center; width: 100%; padding: 100px;">Loading...</p>
     </div>
 
-    <div class="similar-section">
-        <h2 style="text-align: center;">You May Also Like</h2>
-        <div class="similar-grid" id="similar-list"></div>
+    <div class="slider-section">
+        <h2 class="section-title">You May Also Like</h2>
+        <div class="h-slider-wrapper">
+            <button class="nav-btn prev-btn" onclick="slide('like-list', -1)"><i class="fas fa-chevron-left"></i></button>
+            <div class="h-slider" id="like-list"></div>
+            <button class="nav-btn next-btn" onclick="slide('like-list', 1)"><i class="fas fa-chevron-right"></i></button>
+        </div>
     </div>
+
+    <div class="slider-section" style="background: #fafafa;">
+        <h2 class="section-title">Our Best Sellers</h2>
+        <div class="h-slider-wrapper">
+            <button class="nav-btn prev-btn" onclick="slide('best-list', -1)"><i class="fas fa-chevron-left"></i></button>
+            <div class="h-slider" id="best-list"></div>
+            <button class="nav-btn next-btn" onclick="slide('best-list', 1)"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <div class="slider-section" style="overflow: hidden;">
+        <h2 class="section-title">Recent Concept Purchases</h2>
+        <div class="auto-track" id="recent-track"></div>
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div><h2 class="logo">NAVEERA</h2><p style="color:#888;">Directly from the looms of Banaras to your doorstep.</p></div>
+            <div><h4>Support</h4><p>About Us</p><p>Shipping Policy</p></div>
+            <div><h4>Contact</h4><p>+91 6386885929</p></div>
+        </div>
+    </footer>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-        import { getFirestore, doc, getDoc, collection, query, where, limit, getDocs } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDKKtWZYnGOIK4vcKCwaNohBsEGSyXF0iA",
@@ -118,143 +142,80 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Global state for variation
-        window.selectedVariant = null;
-
-        window.changeImg = function(url, el) {
-            document.getElementById('mainDisplayImg').src = url;
-            document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+        // Core Functions
+        window.toggleAcc = (el) => el.parentElement.classList.toggle('active');
+        window.slide = (id, dir) => document.getElementById(id).scrollBy({ left: dir * 320, behavior: 'smooth' });
+        window.changeMainImg = (src, el) => {
+            document.getElementById('mainImg').src = src;
+            document.querySelectorAll('.thumb-img').forEach(t => t.classList.remove('active'));
             el.classList.add('active');
-        };
-
-        window.addToCart = function(p) {
-            let cart = JSON.parse(localStorage.getItem('naveera_cart')) || [];
-            // Agar variant select hai to use object mein add karlo
-            if(window.selectedVariant) {
-                p.variant = window.selectedVariant;
-            }
-            cart.push(p);
-            localStorage.setItem('naveera_cart', JSON.stringify(cart));
-            alert(`Bag mein add ho gaya! ✅ ${window.selectedVariant ? '('+window.selectedVariant+')' : ''}`);
         };
 
         async function getProduct() {
             const params = new URLSearchParams(window.location.search);
             const id = params.get('id');
             if (!id) return;
-
+            
             const snap = await getDoc(doc(db, "products", id));
-
             if (snap.exists()) {
                 const p = snap.data();
                 const images = p.images || [p.image];
-                let thumbsHtml = images.map((img, i) => `
-                    <img src="${img}" class="thumb ${i===0?'active':''}" onclick="changeImg('${img}', this)">
-                `).join('');
+                
+                const thumbs = images.map((img, i) => `<img src="${img}" class="thumb-img ${i==0?'active':''}" onclick="changeMainImg('${img}', this)">`).join('');
 
-                let bulletHtml = p.features ? p.features.map(f => `<li><i class="fas fa-check-circle"></i> ${f}</li>`).join('') : "<li>Authentic Banarasi Handloom Piece</li>";
-
-                const waNumber = "6386885929";
-                const waMsg = `Hello Naveera, I'm interested in: ${p.name}. \nLink: ${window.location.href}`;
-                const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMsg)}`;
-
-                document.getElementById('product-details').innerHTML = `
+                document.getElementById('product-root').innerHTML = `
                     <div class="image-section">
-                        <div class="thumbnail-col">${thumbsHtml}</div>
-                        <div class="main-display">
-                            <img src="${images[0]}" id="mainDisplayImg" class="main-img">
-                        </div>
+                        <div class="thumbnail-col">${thumbs}</div>
+                        <div class="main-display"><img src="${images[0]}" id="mainImg"></div>
                     </div>
-
+                    
                     <div class="info-section">
-                        <span class="brand-tag">Premium Collection</span>
+                        <div class="breadcrumb">Handloom / ${p.category}</div>
                         <h1 class="p-title">${p.name}</h1>
-                        
-                        <div class="price-box">
-                            <span class="p-price" id="mainPrice">₹${p.price}</span>
-                            ${p.oldPrice ? `<span class="p-old-price">₹${p.oldPrice}</span>` : ""}
-                            ${p.oldPrice ? `<span class="p-discount">${Math.round(((p.oldPrice-p.price)/p.oldPrice)*100)}% OFF</span>` : ""}
+                        <div class="price-row">
+                            <span class="p-price">₹${p.price}</span>
+                            ${p.oldPrice ? `<span class="p-old">₹${p.oldPrice}</span>` : ""}
+                            <span class="tax-info">MRP incl. of all taxes</span>
                         </div>
-
-                        <div id="variation-wrapper" style="display:none; margin: 10px 0;">
-                            <p style="font-weight:600; font-size:14px; margin-bottom:10px;">Select Colour / Variant:</p>
-                            <div id="variant-list" style="display:flex; gap:10px; flex-wrap:wrap;"></div>
+                        <div class="action-btns">
+                            <button class="btn add-bag">Add to Bag</button>
+                            <button class="btn buy-now" onclick="location.href='checkout.html?id=${id}'">Buy It Now</button>
                         </div>
-
-                        <ul class="features-list">${bulletHtml}</ul>
-
-                        <div class="specs-card">
-                            <h4><i class="fas fa-info-circle" style="color:#b76e79"></i> Product Specifications</h4>
-                            <table class="specs-table">
-                                <tr><td>Fabric Type</td><td>${p.category === 'Saree' ? 'Pure Banarasi Silk' : 'Premium Banarasi Cotton'}</td></tr>
-                                <tr><td>Work</td><td>Heavy Hand Embroidery</td></tr>
-                                <tr><td>Shipping</td><td>Free Delivery Across India</td></tr>
-                            </table>
+                        <div class="details-accordion">
+                            <div class="acc-item active"><button class="acc-btn" onclick="toggleAcc(this)">Description <span>+</span></button>
+                            <div class="acc-content">${p.description}</div></div>
+                            <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)">Fabric & Care <span>+</span></button>
+                            <div class="acc-content">${p.fabric || 'Pure Banarasi Silk. Dry Clean Only.'}</div></div>
                         </div>
-
-                        <div class="btn-group">
-                            <div class="action-row">
-                                <button class="buy-btn" onclick="location.href='checkout.html?id=${id}'">BUY IT NOW</button>
-                                <button class="add-btn" onclick='addToCart({id:"${id}", name:"${p.name}", price:${p.price}, image:"${images[0]}"})'>
-                                    <i class="fas fa-shopping-bag"></i>
-                                </button>
-                            </div>
-                            <a href="${waLink}" target="_blank" class="whatsapp-btn">
-                                <i class="fab fa-whatsapp"></i> Chat on WhatsApp
-                            </a>
-                        </div>
-                    </div>
-                `;
-
-                // Handle Variants Logic
-                if(p.variants && p.variants.length > 0) {
-                    document.getElementById('variation-wrapper').style.display = 'block';
-                    const list = document.getElementById('variant-list');
-                    p.variants.forEach(v => {
-                        const b = document.createElement('button');
-                        b.className = 'variant-btn';
-                        b.innerText = v.color;
-                        b.onclick = () => {
-                            document.querySelectorAll('.variant-btn').forEach(btn => {
-                                btn.style.borderColor = '#ddd';
-                                btn.style.color = '#333';
-                            });
-                            b.style.borderColor = '#b76e79';
-                            b.style.color = '#b76e79';
-                            window.selectedVariant = v.color;
-                            if(v.price) document.getElementById('mainPrice').innerText = "₹" + v.price;
-                        };
-                        list.appendChild(b);
-                    });
-                }
-
-                loadSimilar(p.category, id);
+                    </div>`;
+                loadExtraSections();
             }
         }
 
-        async function loadSimilar(cat, currentId) {
-            const q = query(collection(db, "products"), where("category", "==", cat), limit(5));
-            const snap = await getDocs(q);
-            const container = document.getElementById('similar-list');
-            container.innerHTML = "";
+        async function loadExtraSections() {
+            const snap = await getDocs(collection(db, "products"));
+            const list = [];
+            snap.forEach(doc => list.push({id: doc.id, ...doc.data()}));
+            const names = ["Anjali - Delhi", "Priya - Mumbai", "Sana - Lucknow", "Ritu - Varanasi", "Megha - Jaipur"];
 
-            snap.forEach((doc) => {
-                const item = doc.data();
-                if(doc.id !== currentId) {
-                    const img = item.images ? item.images[0] : item.image;
-                    container.innerHTML += `
-                        <a href="product-detail.html?id=${doc.id}" class="s-card">
-                            <img src="${img}">
-                            <div class="s-info">
-                                <p style="font-weight:600; margin:0;">${item.name}</p>
-                                <p style="color:#b76e79; font-weight:700; margin-top:5px;">₹${item.price}</p>
-                            </div>
-                        </a>
-                    `;
-                }
-            });
+            const card = (item, tag = "") => `
+                <div class="slide-card" onclick="location.href='product-detail.html?id=${item.id}'">
+                    <img src="${item.images ? item.images[0] : item.image}">
+                    <div class="slide-meta">
+                        <div style="font-size:12px; letter-spacing:1px; margin-bottom:5px;">${item.name}</div>
+                        <div style="font-weight:600">₹${item.price}</div>
+                        ${tag}
+                    </div>
+                </div>`;
+
+            document.getElementById('like-list').innerHTML = list.slice(0, 8).map(i => card(i)).join('');
+            document.getElementById('best-list').innerHTML = list.reverse().slice(0, 8).map(i => card(i)).join('');
+            
+            // Auto Track (Duplicate for infinite effect)
+            const recentHtml = list.slice(0, 6).map((i, idx) => card(i, `<div class="purchased-tag"><i class="fas fa-check-circle"></i> Purchased by ${names[idx%5]}</div>`)).join('');
+            document.getElementById('recent-track').innerHTML = recentHtml + recentHtml;
         }
-
+        
         getProduct();
     </script>
 </body>

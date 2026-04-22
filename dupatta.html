@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Banarasi Salwar Suits Collection | Naveera</title>
+    <title>Banarasi Dupatta Collection | Naveera</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -52,7 +52,7 @@
         .img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
         .product-card:hover .img-wrapper img { transform: scale(1.05); }
 
-        /* BUY NOW BUTTON (Updated Text & Style) */
+        /* BUY NOW OVERLAY */
         .buy-now-overlay {
             position: absolute; bottom: 0; left: 0; width: 100%; padding: 15px;
             background: rgba(255,255,255,0.95); border: none; font-weight: 600;
@@ -63,6 +63,8 @@
         .buy-now-overlay:hover { background: #000; color: #fff; }
 
         .product-info { padding: 15px 0; text-align: left; }
+        
+        /* TITLE ONE LINE LOGIC */
         .product-name { 
             font-size: 14px; font-weight: 500; margin-bottom: 8px; color: #333; 
             text-transform: uppercase; letter-spacing: 0.5px;
@@ -84,21 +86,21 @@
             .sidebar { width: 100%; display: none; }
             .products-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
             .img-wrapper { height: 260px; }
-            .buy-now-overlay { display: none; } /* Mobile pe image click kafi hai */
+            .buy-now-overlay { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <div class="announcement-bar">DIRECT FROM VARANASI LOOMS • FREE SHIPPING IN INDIA</div>
+    <div class="announcement-bar">THE BANARASI DUPATTA COLLECTION • WORLDWIDE SHIPPING</div>
 
     <div class="navbar">
         <a href="index.html" class="logo">NAVEERA</a>
         <div class="nav-center">
             <a href="index.html">Home</a>
             <a href="sarees.html">Sarees</a>
-            <a href="salwar-shop.html" style="color: var(--accent);">Salwar Suits</a>
-            <a href="dupatta.html">Dupattas</a>
+            <a href="salwar-shop.html">Salwar Suits</a>
+            <a href="dupatta.html" style="color: var(--accent);">Dupattas</a>
         </div>
         <div class="nav-right">
             <i class="fas fa-search"></i>
@@ -113,23 +115,23 @@
     <div class="shop-container">
         <aside class="sidebar">
             <div class="filter-section">
-                <div class="filter-title">Collection</div>
+                <div class="filter-title">Fabric Type</div>
                 <ul class="filter-list">
-                    <li onclick="window.location.href='salwar-shop.html'">All Collections</li>
-                    <li onclick="window.location.href='salwar-shop.html?sub=Silk'">Banarasi Silk</li>
-                    <li onclick="window.location.href='salwar-shop.html?sub=Cotton'">Cotton Silk</li>
-                    <li onclick="window.location.href='salwar-shop.html?sub=Georgette'">Georgette</li>
+                    <li onclick="window.location.href='dupatta.html'">All Collections</li>
+                    <li onclick="window.location.href='dupatta.html?sub=Katan'">Katan Silk</li>
+                    <li onclick="window.location.href='dupatta.html?sub=Organza'">Kora Organza</li>
+                    <li onclick="window.location.href='dupatta.html?sub=Georgette'">Khaddi Georgette</li>
                 </ul>
             </div>
             <div class="filter-section">
                 <div class="filter-title">Origin</div>
-                <p style="font-size: 14px; color: #888;">Handcrafted in Varanasi</p>
+                <p style="font-size: 13px; color: #888; line-height: 1.6;">Hand-woven with zari work in the heart of Banaras.</p>
             </div>
         </aside>
 
         <main class="main-content">
             <div class="page-header">
-                <div><h1 id="page-heading">Salwar Suits</h1></div>
+                <div><h1 id="page-heading">Dupattas</h1></div>
                 <div class="sort-box">
                     <select id="sortSelect" onchange="sortProducts()">
                         <option value="newest">Sort By: Newest</option>
@@ -138,17 +140,17 @@
                     </select>
                 </div>
             </div>
-            <div class="products-grid" id="salwar-list"></div>
+            <div class="products-grid" id="dupatta-list"></div>
         </main>
     </div>
 
     <footer>
         <div class="footer-grid">
-            <div><h2 class="logo">NAVEERA</h2><p>Experience the timeless heritage of Banaras with our hand-woven collections.</p></div>
-            <div><h4>Shop</h4><a href="sarees.html">Sarees</a><br><a href="salwar-shop.html">Suits</a></div>
-            <div><h4>Help</h4><a href="#">Shipping</a><br><a href="#">Contact</a></div>
+            <div><h2 class="logo">NAVEERA</h2><p>Timeless Banarasi craftsmanship delivered to your doorstep.</p></div>
+            <div><h4>Shop</h4><a href="sarees.html">Sarees</a><br><a href="salwar-shop.html">Suits</a><br><a href="dupatta.html">Dupattas</a></div>
+            <div><h4>Help</h4><a href="#">Shipping</a><br><a href="#">Contact Us</a></div>
         </div>
-        <div class="footer-bottom">© 2026 NAVEERA BANARAS. CRAFTED WITH LOVE.</div>
+        <div class="footer-bottom">© 2026 NAVEERA BANARAS. ELEGANCE REDEFINED.</div>
     </footer>
 
     <script type="module">
@@ -192,22 +194,26 @@
             if(imgElement) imgElement.src = originalImage;
         };
 
-        async function loadSalwarData() {
+        async function loadDupattaData() {
             const params = new URLSearchParams(window.location.search);
             const sub = params.get('sub');
-            let q = query(collection(db, "products"), where("category", "==", "Salwar Suit"));
+            
+            // Category MUST be "Dupatta" in your Firestore
+            let q = query(collection(db, "products"), where("category", "==", "Dupatta"));
+            
             if(sub) {
-                document.getElementById("page-heading").innerText = sub + " Collection";
-                q = query(collection(db, "products"), where("category", "==", "Salwar Suit"), where("subCategory", "==", sub));
+                document.getElementById("page-heading").innerText = sub + " Dupattas";
+                q = query(collection(db, "products"), where("category", "==", "Dupatta"), where("subCategory", "==", sub));
             }
+
             const snapshot = await getDocs(q);
             allProducts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             renderProducts(allProducts);
         }
 
         function renderProducts(products) {
-            const listDiv = document.getElementById("salwar-list");
-            listDiv.innerHTML = products.length ? "" : `<p style="grid-column: 1/-1; text-align: center; padding: 50px;">No items found.</p>`;
+            const listDiv = document.getElementById("dupatta-list");
+            listDiv.innerHTML = products.length ? "" : `<p style="grid-column: 1/-1; text-align: center; padding: 50px;">No items found in this collection.</p>`;
 
             products.forEach(item => {
                 const images = item.images && item.images.length > 0 ? item.images : [item.image || 'https://via.placeholder.com/400'];
@@ -255,7 +261,7 @@
         });
 
         document.getElementById('cartCount').innerText = (JSON.parse(localStorage.getItem('naveera_cart')) || []).length;
-        loadSalwarData();
+        loadDupattaData();
     </script>
 </body>
 </html>
