@@ -4,50 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout | Naveera</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Poppins', sans-serif; background: #fcfcfc; padding: 20px; margin: 0; }
-        .checkout-container { max-width: 500px; margin: 40px auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-        h2 { text-align: center; color: #b76e79; margin-bottom: 20px; }
-        label { font-size: 14px; font-weight: 600; color: #555; display: block; margin-top: 15px; }
-        input, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-family: inherit; }
+        :root { 
+            --premium-gold: #b76e79; 
+            --gold-accent: #b8860b;
+            --text-dark: #222;
+            --bg-soft: #fdfaf7;
+        }
+
+        body { font-family: 'Montserrat', sans-serif; background: var(--bg-soft); padding: 0; margin: 0; color: var(--text-dark); }
+        h2, .logo-bold { font-family: 'Playfair Display', serif; }
+
+        /* --- BRAND IDENTITY --- */
+        .brand-identity { text-align: center; padding: 20px 0; background: #fff; border-bottom: 1px solid #eee; }
+        .logo-bold { font-size: 32px; font-weight: 700; letter-spacing: 5px; color: #000; display: block; line-height: 1; text-transform: uppercase; text-decoration: none; }
+        .logo-fashion { font-family: 'Playfair Display', serif; font-size: 12px; font-style: italic; letter-spacing: 8px; text-transform: uppercase; color: var(--gold-accent); margin-top: 5px; display: block; }
+
+        .checkout-wrapper { max-width: 1100px; margin: 40px auto; display: flex; gap: 30px; padding: 0 20px; align-items: flex-start; }
         
-        .order-summary { background: #fff5f6; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #b76e79; }
+        /* Left: Form */
+        .checkout-container { flex: 1.2; background: white; padding: 40px; border-radius: 4px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); }
         
-        .payment-methods { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+        /* Right: Summary */
+        .order-summary-sidebar { flex: 0.8; background: #fff; padding: 30px; border-radius: 4px; border: 1px solid #eee; position: sticky; top: 20px; }
+
+        h2 { font-size: 28px; margin-top: 0; font-weight: 400; }
+        label { font-size: 12px; font-weight: 600; color: #888; display: block; margin-top: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        input, textarea { width: 100%; padding: 14px; margin: 8px 0; border: 1px solid #eee; border-radius: 0; box-sizing: border-box; font-family: inherit; background: #fafafa; transition: 0.3s; }
+        input:focus, textarea:focus { border-color: var(--premium-gold); background: #fff; outline: none; }
+        
+        .summary-title { font-family: 'Playfair Display', serif; font-size: 20px; border-bottom: 2px solid #222; padding-bottom: 10px; margin-bottom: 20px; display: block; }
+        .summary-box { font-size: 14px; line-height: 1.8; color: #444; }
+        .summary-box strong { color: #000; display: block; margin-top: 10px; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; }
+
+        .payment-methods { display: flex; flex-direction: column; gap: 12px; margin-top: 30px; }
         .method-btn { 
-            padding: 15px; border-radius: 8px; font-weight: 700; cursor: pointer; 
-            font-size: 15px; text-transform: uppercase; border: none; 
-            display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s;
+            padding: 18px; border-radius: 0; font-weight: 600; cursor: pointer; 
+            font-size: 13px; text-transform: uppercase; border: none; letter-spacing: 2px;
+            display: flex; align-items: center; justify-content: center; gap: 12px; transition: 0.4s;
         }
         .wa-btn { background: #25D366; color: white; }
-        .wa-btn:hover { background: #1eb954; transform: translateY(-2px); }
-        .cod-btn { background: #222; color: white; }
-        .cod-btn:hover { background: #444; transform: translateY(-2px); }
+        .wa-btn:hover { background: #1eb954; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(37,211,102,0.2); }
+        .cod-btn { background: #1a1a1a; color: white; }
+        .cod-btn:hover { background: var(--premium-gold); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(183,110,121,0.2); }
         
-        .divider { text-align: center; margin: 15px 0; color: #888; font-size: 14px; position: relative; }
-        .divider::before, .divider::after { content: ""; position: absolute; top: 50%; width: 38%; height: 1px; background: #eee; }
-        .divider::before { left: 0; } .divider::after { right: 0; }
+        .divider { text-align: center; margin: 20px 0; color: #ccc; font-size: 12px; position: relative; font-weight: 600; }
 
         /* MAGIC POPUP STYLING */
         .popup-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center;
-            backdrop-filter: blur(8px);
+            background: rgba(0,0,0,0.85); z-index: 9999; justify-content: center; align-items: center;
+            backdrop-filter: blur(10px);
         }
         .success-popup {
-            background: white; padding: 40px; border-radius: 25px; text-align: center;
-            max-width: 380px; width: 90%; transform: scale(0.5); opacity: 0; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: white; padding: 50px 40px; border-radius: 4px; text-align: center;
+            max-width: 400px; width: 90%; transform: scale(0.8); opacity: 0; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .popup-active .success-popup { transform: scale(1); opacity: 1; }
         
         .checkmark-wrapper {
-            width: 100px; height: 100px; background: #25D366; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;
-            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+            width: 80px; height: 80px; background: #25D366; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; margin: 0 auto 25px;
+            box-shadow: 0 15px 30px rgba(37, 211, 102, 0.3);
         }
-        .checkmark-wrapper i { color: white; font-size: 50px; animation: bounceIn 0.6s ease-out; }
+        .checkmark-wrapper i { color: white; font-size: 40px; animation: bounceIn 0.8s ease-out; }
         
         @keyframes bounceIn {
             0% { transform: scale(0.3); opacity: 0; }
@@ -57,137 +79,165 @@
         }
 
         .ok-btn {
-            margin-top: 25px; padding: 15px; background: #b76e79; color: white;
-            border: none; border-radius: 12px; font-weight: 600; cursor: pointer; 
-            width: 100%; font-size: 16px; transition: 0.3s;
+            margin-top: 30px; padding: 18px; background: #1a1a1a; color: white;
+            border: none; border-radius: 0; font-weight: 600; cursor: pointer; 
+            width: 100%; font-size: 13px; letter-spacing: 2px; transition: 0.3s;
         }
-        .ok-btn:hover { background: #a35d68; }
+        .ok-btn:hover { background: var(--premium-gold); }
+
+        @media (max-width: 850px) {
+            .checkout-wrapper { flex-direction: column-reverse; margin: 20px auto; }
+            .order-summary-sidebar { width: 100%; box-sizing: border-box; position: static; }
+        }
     </style>
 </head>
 <body>
 
-<div class="checkout-container">
-    <h2>Complete Your Order</h2>
-    <div class="order-summary" id="order-summary"></div>
-    
-    <label>Full Name</label>
-    <input type="text" id="custName" placeholder="Enter your name">
+    <!-- BRAND LOGO AREA -->
+    <header>
+        <a href="index.html" style="text-decoration: none;">
+            <div class="brand-identity">
+                <span class="logo-bold">NAVEERA</span>
+                <span class="logo-fashion">Fashion</span>
+            </div>
+        </a>
+    </header>
 
-    <label>Phone Number</label>
-    <input type="text" id="custPhone" placeholder="Enter mobile number">
+    <div class="checkout-wrapper">
+        <!-- Left: Information Form -->
+        <div class="checkout-container">
+            <h2>Shipping Details</h2>
+            
+            <label>Full Name</label>
+            <input type="text" id="custName" placeholder="e.g. Rahul Sharma">
 
-    <label>Full Delivery Address (with Pincode)</label>
-    <textarea id="custAddress" rows="4" placeholder="House no, Area, Landmark, City, State, Pincode"></textarea>
-    
-    <div class="payment-methods">
-        <button class="method-btn wa-btn" onclick="placeOrder('WhatsApp')">
-            <i class="fab fa-whatsapp"></i> Order & Pay via WhatsApp
-        </button>
-        <div class="divider">OR</div>
-        <button class="method-btn cod-btn" onclick="placeOrder('COD')">
-            <i class="fas fa-truck"></i> Cash on Delivery (COD)
-        </button>
+            <label>Phone Number</label>
+            <input type="text" id="custPhone" placeholder="10-digit mobile number">
+
+            <label>Full Delivery Address (with Pincode)</label>
+            <textarea id="custAddress" rows="4" placeholder="House no, Building, Area, Landmark, City, State, Pincode"></textarea>
+            
+            <div class="payment-methods">
+                <button class="method-btn wa-btn" onclick="placeOrder('WhatsApp')">
+                    <i class="fab fa-whatsapp"></i> Order & Pay via WhatsApp
+                </button>
+                <div class="divider">OR</div>
+                <button class="method-btn cod-btn" onclick="placeOrder('COD')">
+                    <i class="fas fa-truck"></i> Cash on Delivery (COD)
+                </button>
+            </div>
+        </div>
+
+        <!-- Right: Order Summary Sidebar -->
+        <aside class="order-summary-sidebar">
+            <span class="summary-title">Bag Summary</span>
+            <div class="summary-box" id="order-summary">
+                <!-- Summary Injected Here -->
+            </div>
+        </aside>
     </div>
-</div>
 
-<div class="popup-overlay" id="orderPopup">
-    <div class="success-popup">
-        <div class="checkmark-wrapper"><i class="fas fa-check"></i></div>
-        <h2 style="color: #333; margin-bottom: 10px;">Order Confirmed!</h2>
-        <p style="color: #666; line-height: 1.5;" id="popupMsg">Aapka order Naveera mein receive ho gaya hai. Hum jaldi hi aapse sampark karenge.</p>
-        <button class="ok-btn" onclick="finalRedirect()">EK DUM MAST!</button>
+    <!-- Success Popup -->
+    <div class="popup-overlay" id="orderPopup">
+        <div class="success-popup">
+            <div class="checkmark-wrapper"><i class="fas fa-check"></i></div>
+            <h2 style="color: #333; margin-bottom: 10px;">Order Received!</h2>
+            <p style="color: #666; line-height: 1.5; font-size: 14px;" id="popupMsg">Aapka order Naveera mein receive ho gaya hai. Hum jaldi hi aapse sampark karenge.</p>
+            <button class="ok-btn" onclick="finalRedirect()">EK DUM MAST!</button>
+        </div>
     </div>
-</div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyDKKtWZYnGOIK4vcKCwaNohBsEGSyXF0iA",
-        authDomain: "naveera-e82ab.firebaseapp.com",
-        projectId: "naveera-e82ab",
-        storageBucket: "naveera-e82ab.firebasestorage.app",
-        messagingSenderId: "531422327110",
-        appId: "1:531422327110:web:90d3092ec932fbb3643547"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    const params = new URLSearchParams(window.location.search);
-    const pNames = params.get('name');
-    const pPrice = params.get('price');
-
-    document.getElementById('order-summary').innerHTML = `
-        <strong>Products:</strong> ${pNames} <br>
-        <strong>Grand Total:</strong> ₹${pPrice}
-    `;
-
-    // Global variables for redirection
-    let whatsappLink = "";
-
-    window.placeOrder = async function(method) {
-        const name = document.getElementById('custName').value;
-        const phone = document.getElementById('custPhone').value;
-        const address = document.getElementById('custAddress').value;
-
-        if(!name || !phone || !address) {
-            alert("Bhai, saari details bhariye tabhi order hoga!");
-            return;
-        }
-
-        const orderData = {
-            customerName: name,
-            phone: phone,
-            address: address,
-            productNames: pNames,
-            totalPrice: pPrice,
-            paymentMethod: method,
-            status: "New Order",
-            orderDate: new Date().toLocaleString()
+        const firebaseConfig = {
+            apiKey: "AIzaSyDKKtWZYnGOIK4vcKCwaNohBsEGSyXF0iA",
+            authDomain: "naveera-e82ab.firebaseapp.com",
+            projectId: "naveera-e82ab",
+            storageBucket: "naveera-e82ab.firebasestorage.app",
+            messagingSenderId: "531422327110",
+            appId: "1:531422327110:web:90d3092ec932fbb3643547"
         };
 
-        try {
-            const docRef = await addDoc(collection(db, "orders"), orderData);
-            localStorage.removeItem('naveera_cart');
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-            // --- SHOW MAGIC POPUP ---
-            const popup = document.getElementById('orderPopup');
-            popup.style.display = 'flex';
-            setTimeout(() => popup.classList.add('popup-active'), 10);
+        const params = new URLSearchParams(window.location.search);
+        const pNames = params.get('name');
+        const pPrice = params.get('price');
 
-            if(method === 'WhatsApp') {
-                const myNumber = "919876543210"; 
-                const message = `*NAVEERA - NEW ORDER (${method})* 🛍️\n\n` +
-                                `*Order ID:* ${docRef.id}\n` +
-                                `*Products:* ${pNames}\n` +
-                                `*Total Amount:* ₹${pPrice}\n\n` +
-                                `*Customer Details:*\n` +
-                                `- Name: ${name}\n` +
-                                `- Phone: ${phone}\n` +
-                                `- Address: ${address}\n\n` +
-                                `_Please process my order!_`;
-                
-                whatsappLink = `https://wa.me/${myNumber}?text=${encodeURIComponent(message)}`;
-                document.getElementById('popupMsg').innerText = "Aapka order receive ho gaya hai. Ab 'OK' dabate hi hum aapse WhatsApp par jud jayenge!";
-            } else {
-                whatsappLink = "index.html"; // COD ke liye home redirect
+        document.getElementById('order-summary').innerHTML = `
+            <strong>Your Selection</strong> 
+            <p style="margin-top:5px">${pNames}</p>
+            <div style="margin-top:20px; padding-top:15px; border-top:1px solid #eee;">
+                <strong>Amount Payable</strong>
+                <span style="font-size: 22px; font-weight: 700; color: #000;">₹${parseInt(pPrice).toLocaleString('en-IN')}</span>
+            </div>
+        `;
+
+        let whatsappLink = "";
+
+        window.placeOrder = async function(method) {
+            const name = document.getElementById('custName').value;
+            const phone = document.getElementById('custPhone').value;
+            const address = document.getElementById('custAddress').value;
+
+            if(!name || !phone || !address) {
+                alert("Bhai, saari details bhariye tabhi order hoga!");
+                return;
             }
 
-        } catch (error) {
-            console.error("Error:", error);
-            alert("Kuch gadbad ho gayi, kripya dobara koshish karein.");
-        }
-    };
+            const orderData = {
+                customerName: name,
+                phone: phone,
+                address: address,
+                productNames: pNames,
+                totalPrice: pPrice,
+                paymentMethod: method,
+                status: "New Order",
+                orderDate: new Date().toLocaleString()
+            };
 
-    window.finalRedirect = function() {
-        if(whatsappLink.includes("wa.me")) {
-            window.open(whatsappLink, '_blank');
-        }
-        window.location.href = "index.html";
-    };
-</script>
+            try {
+                const docRef = await addDoc(collection(db, "orders"), orderData);
+                localStorage.removeItem('naveera_cart');
+
+                const popup = document.getElementById('orderPopup');
+                popup.style.display = 'flex';
+                setTimeout(() => popup.classList.add('popup-active'), 10);
+
+                if(method === 'WhatsApp') {
+                    const myNumber = "919876543210"; 
+                    const message = `*NAVEERA - NEW ORDER (${method})* 🛍️\n\n` +
+                                    `*Order ID:* ${docRef.id}\n` +
+                                    `*Products:* ${pNames}\n` +
+                                    `*Total Amount:* ₹${pPrice}\n\n` +
+                                    `*Customer Details:*\n` +
+                                    `- Name: ${name}\n` +
+                                    `- Phone: ${phone}\n` +
+                                    `- Address: ${address}\n\n` +
+                                    `_Please process my order!_`;
+                    
+                    whatsappLink = `https://wa.me/${myNumber}?text=${encodeURIComponent(message)}`;
+                    document.getElementById('popupMsg').innerText = "Aapka order confirm ho gaya hai! Ab 'OK' dabate hi hum aapse WhatsApp par details share karenge.";
+                } else {
+                    whatsappLink = "index.html";
+                }
+
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Kuch gadbad ho gayi, kripya dobara koshish karein.");
+            }
+        };
+
+        window.finalRedirect = function() {
+            if(whatsappLink.includes("wa.me")) {
+                window.open(whatsappLink, '_blank');
+            }
+            window.location.href = "index.html";
+        };
+    </script>
 
 </body>
 </html>

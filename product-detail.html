@@ -13,71 +13,72 @@
         h1, h2, h3, .logo { font-family: 'Playfair Display', serif; }
         a { text-decoration:none; color:inherit; }
 
-        /* --- NAVIGATION --- */
         .navbar { display: flex; justify-content: space-between; align-items: center; padding: 0 50px; background: white; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 2000; height: 80px; }
         .logo { font-size: 30px; font-weight: 700; letter-spacing: 2px; }
 
-        /* --- PRODUCT LAYOUT --- */
         .product-container { display: flex; max-width: 1400px; margin: 0 auto; gap: 40px; padding: 40px; }
-        
-        /* Image Selection Logic */
         .image-section { flex: 1.2; display: flex; gap: 15px; align-items: flex-start; position: sticky; top: 120px; }
         .thumbnail-col { display: flex; flex-direction: column; gap: 10px; width: 80px; }
         .thumb-img { width: 100%; height: 100px; object-fit: cover; cursor: pointer; border: 1px solid var(--border); transition: 0.3s; opacity: 0.6; }
         .thumb-img.active { border-color: #000; opacity: 1; }
-        .main-display { flex: 1; }
-        .main-display img { width: 100%; height: 750px; object-fit: cover; background: #f9f9f9; }
+        
+        .main-display { flex: 1; border: 1px solid #f9f9f9; text-align: center; }
+        .main-display img { width: 100%; height: 700px; object-fit: contain; background: #fff; }
 
         .info-section { flex: 0.8; }
         .breadcrumb { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 15px; }
         .p-title { font-size: 32px; font-weight: 400; line-height: 1.2; margin-bottom: 10px; }
         .price-row { margin: 20px 0; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
-        .p-price { font-size: 24px; font-weight: 500; }
+        .p-price { font-size: 26px; font-weight: 500; color: #000; }
         .p-old { text-decoration: line-through; color: #999; font-size: 18px; margin-left: 10px; }
-        .tax-info { font-size: 12px; color: #666; display: block; margin-top: 5px; }
 
-        .action-btns { display: flex; flex-direction: column; gap: 12px; margin: 30px 0; }
-        .btn { padding: 18px; border-radius: 0; font-weight: 600; letter-spacing: 2px; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-size: 13px; border: 1px solid #000; }
-        .add-bag { background: #fff; color: #000; }
-        .add-bag:hover { background: #000; color: #fff; }
+        .action-btns { display: flex; flex-direction: column; gap: 10px; margin: 20px 0; }
+        .btn { padding: 16px; border-radius: 0; font-weight: 600; letter-spacing: 2px; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-size: 13px; border: 1px solid #000; text-align: center; display: block; width: 100%; }
         .buy-now { background: #000; color: #fff; }
+        .add-bag { background: #fff; color: #000; }
+        .wa-chat { background: #25D366; color: white; border: none; font-size: 12px; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 5px; }
 
-        .details-accordion { border-top: 1px solid var(--border); margin-top: 40px; }
+        .highlights-list { padding: 0; list-style: none; margin: 25px 0; background: #fdfafb; padding: 15px; border-radius: 4px; }
+        .highlights-list li { font-size: 14px; margin-bottom: 10px; color: #444; display: flex; align-items: center; }
+        .highlights-list li i { color: var(--accent); margin-right: 12px; font-size: 14px; }
+
+        .specs-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
+        .specs-table td { padding: 12px; border-bottom: 1px solid #f0f0f0; }
+        .spec-label { font-weight: 600; color: #888; width: 35%; text-transform: uppercase; font-size: 11px; }
+
+        .details-accordion { border-top: 1px solid var(--border); margin-top: 20px; }
         .acc-item { border-bottom: 1px solid var(--border); }
-        .acc-btn { width: 100%; padding: 20px 0; background: none; border: none; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-family: 'Playfair Display'; font-size: 18px; }
+        .acc-btn { width: 100%; padding: 18px 0; background: none; border: none; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-family: 'Playfair Display'; font-size: 18px; }
         .acc-content { max-height: 0; overflow: hidden; transition: 0.3s ease; font-size: 14px; line-height: 1.8; color: #555; }
         .acc-item.active .acc-content { max-height: 1000px; padding-bottom: 20px; }
 
-        /* --- SLIDERS & GRIDS --- */
-        .slider-section { padding: 60px 40px; max-width: 1400px; margin: auto; position: relative; }
-        .section-title { text-align: center; font-size: 28px; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 2px; }
+        .rating-section { max-width: 1400px; margin: 40px auto; padding: 40px; border-top: 1px solid var(--border); text-align: center; }
+        .stars { color: #ffb400; font-size: 24px; margin-bottom: 10px; }
+
+        /* SLIDER UPDATED WITH NAVIGATION BUTTONS */
+        .slider-outer { padding: 60px 40px; max-width: 1400px; margin: auto; position: relative; }
+        .slider-title { font-family: 'Playfair Display'; font-size: 28px; margin-bottom: 30px; text-align: center; }
         
-        .h-slider-wrapper { position: relative; display: flex; align-items: center; }
-        .h-slider { display: flex; gap: 20px; overflow-x: auto; scrollbar-width: none; scroll-behavior: smooth; padding: 10px 0; }
+        .slider-wrapper { position: relative; display: flex; align-items: center; }
+        .h-slider { display: flex; gap: 20px; overflow-x: auto; scrollbar-width: none; scroll-behavior: smooth; width: 100%; padding-bottom: 10px; }
         .h-slider::-webkit-scrollbar { display: none; }
         
-        .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; background: #fff; border: 1px solid #000; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
-        .prev-btn { left: -20px; }
-        .next-btn { right: -20px; }
+        .slide-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 45px; height: 45px; background: #fff; border: 1px solid #000; border-radius: 50%; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        .slide-nav:hover { background: #000; color: #fff; }
+        .prev-nav { left: -20px; }
+        .next-nav { right: -20px; }
 
-        .slide-card { min-width: 300px; cursor: pointer; transition: 0.3s; }
-        .slide-card img { width: 100%; height: 400px; object-fit: cover; }
-        .slide-meta { padding: 15px 0; text-align: center; }
-        
-        /* Auto Scroll Track */
-        .auto-track { display: flex; gap: 20px; animation: scrollLeft 30s linear infinite; width: max-content; }
-        @keyframes scrollLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .purchased-tag { font-size: 11px; color: #28a745; font-weight: 600; margin-top: 5px; }
+        .product-card { min-width: 280px; cursor: pointer; text-align: center; }
+        .product-card img { width: 100%; height: 380px; object-fit: cover; background: #f9f9f9; }
+        .p-card-name { font-size: 13px; margin: 10px 0 5px; letter-spacing: 1px; }
+        .p-card-price { font-weight: 600; font-size: 15px; }
 
-        /* Footer */
-        footer { background: #111; color: #fff; padding: 60px 50px; margin-top: 80px; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 50px; max-width: 1400px; margin: auto; }
-        
         @media (max-width: 1024px) {
-            .product-container { flex-direction: column; }
+            .product-container { flex-direction: column; padding: 20px; }
             .image-section { flex-direction: column-reverse; position: static; }
             .thumbnail-col { flex-direction: row; width: 100%; overflow-x: auto; }
-            .main-display img { height: 500px; }
+            .main-display img { height: 450px; }
+            .slide-nav { display: none; } /* Mobile pe scroll hi thik hai */
         }
     </style>
 </head>
@@ -92,39 +93,34 @@
     </div>
 
     <div class="product-container" id="product-root">
-        <p style="text-align: center; width: 100%; padding: 100px;">Loading...</p>
+        <p style="text-align: center; width: 100%; padding: 100px;">Loading your masterpiece...</p>
     </div>
 
-    <div class="slider-section">
-        <h2 class="section-title">You May Also Like</h2>
-        <div class="h-slider-wrapper">
-            <button class="nav-btn prev-btn" onclick="slide('like-list', -1)"><i class="fas fa-chevron-left"></i></button>
+    <div class="rating-section">
+        <h2 style="font-family: 'Playfair Display';">Customer Reviews</h2>
+        <div class="stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+        </div>
+        <p style="font-size:14px; color:#666;">4.8 out of 5 stars (based on 128 reviews)</p>
+    </div>
+
+    <div class="slider-outer">
+        <h2 class="slider-title">You May Also Like</h2>
+        <div class="slider-wrapper">
+            <button class="slide-nav prev-nav" onclick="scrollSlider('like-list', -1)"><i class="fas fa-chevron-left"></i></button>
             <div class="h-slider" id="like-list"></div>
-            <button class="nav-btn next-btn" onclick="slide('like-list', 1)"><i class="fas fa-chevron-right"></i></button>
+            <button class="slide-nav next-nav" onclick="scrollSlider('like-list', 1)"><i class="fas fa-chevron-right"></i></button>
         </div>
     </div>
 
-    <div class="slider-section" style="background: #fafafa;">
-        <h2 class="section-title">Our Best Sellers</h2>
-        <div class="h-slider-wrapper">
-            <button class="nav-btn prev-btn" onclick="slide('best-list', -1)"><i class="fas fa-chevron-left"></i></button>
+    <div class="slider-outer" style="background: #fafafa;">
+        <h2 class="slider-title">Best Sellers</h2>
+        <div class="slider-wrapper">
+            <button class="slide-nav prev-nav" onclick="scrollSlider('best-list', -1)"><i class="fas fa-chevron-left"></i></button>
             <div class="h-slider" id="best-list"></div>
-            <button class="nav-btn next-btn" onclick="slide('best-list', 1)"><i class="fas fa-chevron-right"></i></button>
+            <button class="slide-nav next-nav" onclick="scrollSlider('best-list', 1)"><i class="fas fa-chevron-right"></i></button>
         </div>
     </div>
-
-    <div class="slider-section" style="overflow: hidden;">
-        <h2 class="section-title">Recent Concept Purchases</h2>
-        <div class="auto-track" id="recent-track"></div>
-    </div>
-
-    <footer>
-        <div class="footer-grid">
-            <div><h2 class="logo">NAVEERA</h2><p style="color:#888;">Directly from the looms of Banaras to your doorstep.</p></div>
-            <div><h4>Support</h4><p>About Us</p><p>Shipping Policy</p></div>
-            <div><h4>Contact</h4><p>+91 6386885929</p></div>
-        </div>
-    </footer>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
@@ -142,11 +138,17 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Core Functions
+        // Slider Navigation Logic
+        window.scrollSlider = (id, direction) => {
+            const el = document.getElementById(id);
+            const scrollAmount = 300; 
+            el.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+        };
+
         window.toggleAcc = (el) => el.parentElement.classList.toggle('active');
-        window.slide = (id, dir) => document.getElementById(id).scrollBy({ left: dir * 320, behavior: 'smooth' });
         window.changeMainImg = (src, el) => {
-            document.getElementById('mainImg').src = src;
+            const mainImg = document.getElementById('mainImg');
+            if(mainImg) mainImg.src = src;
             document.querySelectorAll('.thumb-img').forEach(t => t.classList.remove('active'));
             el.classList.add('active');
         };
@@ -156,67 +158,155 @@
             const id = params.get('id');
             if (!id) return;
             
-            const snap = await getDoc(doc(db, "products", id));
-            if (snap.exists()) {
-                const p = snap.data();
-                const images = p.images || [p.image];
-                
-                const thumbs = images.map((img, i) => `<img src="${img}" class="thumb-img ${i==0?'active':''}" onclick="changeMainImg('${img}', this)">`).join('');
+            try {
+                const snap = await getDoc(doc(db, "products", id));
+                if (snap.exists()) {
+                    const p = snap.data();
+                    const images = p.images || [p.image];
+                    const thumbs = images.map((img, i) => `<img src="${img}" class="thumb-img ${i==0?'active':''}" onclick="changeMainImg('${img}', this)">`).join('');
+                    const highlightsHtml = p.features ? p.features.map(f => `<li><i class="fas fa-check-circle"></i> ${f}</li>`).join('') : '';
 
-                document.getElementById('product-root').innerHTML = `
-                    <div class="image-section">
-                        <div class="thumbnail-col">${thumbs}</div>
-                        <div class="main-display"><img src="${images[0]}" id="mainImg"></div>
-                    </div>
+                    document.getElementById('product-root').innerHTML = `
+                        <div class="image-section">
+                            <div class="thumbnail-col">${thumbs}</div>
+                            <div class="main-display"><img src="${images[0] || ''}" id="mainImg"></div>
+                        </div>
+                        
+                        <div class="info-section">
+                            <div class="breadcrumb">Naveera / ${p.category || 'Saree'}</div>
+                            <h1 class="p-title">${p.name}</h1>
+                            
+                            <div class="price-row">
+                                <span class="p-price">₹${Number(p.price).toLocaleString('en-IN')}</span>
+                                ${p.oldPrice ? `<span class="p-old">₹${Number(p.oldPrice).toLocaleString('en-IN')}</span>` : ""}
+                                <span style="display:block; font-size:12px; color:#666; margin-top:5px;">MRP incl. of all taxes | Handwoven in Banaras</span>
+                            </div>
+
+                            <div class="action-btns">
+                                <button class="btn buy-now" onclick="location.href='checkout.html?id=${id}'">Buy It Now</button>
+                                <button class="btn add-bag">Add to Bag</button>
+                                <a href="https://wa.me/916386885929?text=I am interested in ${p.name}" target="_blank" class="btn wa-chat">
+                                    <i class="fab fa-whatsapp"></i> Inquiry on WhatsApp
+                                </a>
+                            </div>
+
+                            <ul class="highlights-list">
+                                <li style="font-weight:600; margin-bottom:15px; color:#000; text-transform:uppercase; font-size:12px; letter-spacing:1px;">Product Highlights</li>
+                                ${highlightsHtml}
+                            </ul>
+
+                            <div class="details-accordion">
+                                <div class="acc-item active">
+                                    <button class="acc-btn" onclick="toggleAcc(this)">Description <span>+</span></button>
+                                    <div class="acc-content">${p.description || 'No description available.'}</div>
+                                </div>
+                                <div class="acc-item">
+                                    <button class="acc-btn" onclick="toggleAcc(this)">Product Specifications <span>+</span></button>
+                                    <div class="acc-content">
+                                        <table class="specs-table">
+                                            <tr><td class="spec-label">Fabric</td><td>${p.fabric || 'Pure Silk'}</td></tr>
+                                            ${p.craft ? `<tr><td class="spec-label">Craft</td><td>${p.craft}</td></tr>` : ''}
+                                            ${p.weight ? `<tr><td class="spec-label">Weight</td><td>${p.weight}</td></tr>` : ''}
+                                            ${p.zariType ? `<tr><td class="spec-label">Zari</td><td>${p.zariType}</td></tr>` : ''}
+                                            ${p.color ? `<tr><td class="spec-label">Color</td><td>${p.color}</td></tr>` : ''}
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
                     
-                    <div class="info-section">
-                        <div class="breadcrumb">Handloom / ${p.category}</div>
-                        <h1 class="p-title">${p.name}</h1>
-                        <div class="price-row">
-                            <span class="p-price">₹${p.price}</span>
-                            ${p.oldPrice ? `<span class="p-old">₹${p.oldPrice}</span>` : ""}
-                            <span class="tax-info">MRP incl. of all taxes</span>
-                        </div>
-                        <div class="action-btns">
-                            <button class="btn add-bag">Add to Bag</button>
-                            <button class="btn buy-now" onclick="location.href='checkout.html?id=${id}'">Buy It Now</button>
-                        </div>
-                        <div class="details-accordion">
-                            <div class="acc-item active"><button class="acc-btn" onclick="toggleAcc(this)">Description <span>+</span></button>
-                            <div class="acc-content">${p.description}</div></div>
-                            <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)">Fabric & Care <span>+</span></button>
-                            <div class="acc-content">${p.fabric || 'Pure Banarasi Silk. Dry Clean Only.'}</div></div>
-                        </div>
-                    </div>`;
-                loadExtraSections();
-            }
+                    loadRelatedProducts();
+                }
+            } catch (err) { console.error(err); }
         }
 
-        async function loadExtraSections() {
+        async function loadRelatedProducts() {
             const snap = await getDocs(collection(db, "products"));
-            const list = [];
-            snap.forEach(doc => list.push({id: doc.id, ...doc.data()}));
-            const names = ["Anjali - Delhi", "Priya - Mumbai", "Sana - Lucknow", "Ritu - Varanasi", "Megha - Jaipur"];
+            let products = [];
+            snap.forEach(doc => products.push({id: doc.id, ...doc.data()}));
 
-            const card = (item, tag = "") => `
-                <div class="slide-card" onclick="location.href='product-detail.html?id=${item.id}'">
+            const createCards = (list) => list.map(item => `
+                <div class="product-card" onclick="location.href='product-detail.html?id=${item.id}'">
                     <img src="${item.images ? item.images[0] : item.image}">
-                    <div class="slide-meta">
-                        <div style="font-size:12px; letter-spacing:1px; margin-bottom:5px;">${item.name}</div>
-                        <div style="font-weight:600">₹${item.price}</div>
-                        ${tag}
-                    </div>
-                </div>`;
+                    <div class="p-card-name">${item.name}</div>
+                    <div class="p-card-price">₹${Number(item.price).toLocaleString('en-IN')}</div>
+                </div>
+            `).join('');
 
-            document.getElementById('like-list').innerHTML = list.slice(0, 8).map(i => card(i)).join('');
-            document.getElementById('best-list').innerHTML = list.reverse().slice(0, 8).map(i => card(i)).join('');
-            
-            // Auto Track (Duplicate for infinite effect)
-            const recentHtml = list.slice(0, 6).map((i, idx) => card(i, `<div class="purchased-tag"><i class="fas fa-check-circle"></i> Purchased by ${names[idx%5]}</div>`)).join('');
-            document.getElementById('recent-track').innerHTML = recentHtml + recentHtml;
+            document.getElementById('like-list').innerHTML = createCards(products.slice(0, 8));
+            document.getElementById('best-list').innerHTML = createCards([...products].reverse().slice(0, 8));
         }
         
         getProduct();
     </script>
 </body>
+<footer style="background: #0f0f0f; color: #ffffff; padding: 80px 20px 30px; font-family: 'Montserrat', sans-serif; border-top: 2px solid #b76e79;">
+    <div style="max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 40px;">
+        
+        <div>
+            <h2 style="font-family: 'Playfair Display'; font-size: 32px; margin-bottom: 20px; letter-spacing: 3px; color: #b76e79;">NAVEERA</h2>
+            <p style="font-size: 14px; line-height: 1.8; color: #999; margin-bottom: 25px;">
+                Naveera celebrates the rich heritage of Banarasi weaving. From the sacred ghats of Varanasi to your wardrobe, we bring you authentic hand-crafted elegance that tells a story of tradition and luxury.
+            </p>
+            <div class="social-icons" style="display: flex; gap: 15px;">
+                <a href="#" style="width: 35px; height: 35px; background: #222; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: #fff; transition: 0.3s;"><i class="fab fa-instagram"></i></a>
+                <a href="#" style="width: 35px; height: 35px; background: #222; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: #fff; transition: 0.3s;"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" style="width: 35px; height: 35px; background: #222; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: #fff; transition: 0.3s;"><i class="fab fa-pinterest-p"></i></a>
+            </div>
+        </div>
+
+        <div>
+            <h4 style="font-family: 'Playfair Display'; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; color: #fff;">Quick Links</h4>
+            <ul style="list-style: none; padding: 0; font-size: 14px; line-height: 2.5;">
+                <li><a href="index.html" class="footer-link">Home</a></li>
+                <li><a href="#" class="footer-link">New Arrivals</a></li>
+                <li><a href="#" class="footer-link">Pure Silk Saree</a></li>
+                <li><a href="#" class="footer-link">Privacy Policy</a></li>
+                <li><a href="#" class="footer-link">Terms & Conditions</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h4 style="font-family: 'Playfair Display'; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; color: #fff;">Get In Touch</h4>
+            <div style="font-size: 14px; line-height: 1.8; color: #999;">
+                <p style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 15px;">
+                    <i class="fas fa-map-marker-alt" style="color: #b76e79; margin-top: 5px;"></i>
+                    <span>K 51/79, Pilikothi, Varanasi,<br>Uttar Pradesh - 221001</span>
+                </p>
+                <p style="margin-bottom: 12px;"><i class="fas fa-phone-alt" style="color: #b76e79; margin-right: 12px;"></i> +91 6386885929</p>
+                <p><i class="fas fa-envelope" style="color: #b76e79; margin-right: 12px;"></i> naveerasilk@gmail.com</p>
+            </div>
+        </div>
+
+        <div>
+            <h4 style="font-family: 'Playfair Display'; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; color: #fff;">Newsletter</h4>
+            <p style="font-size: 13px; color: #999; margin-bottom: 20px;">Subscribe to receive updates, access to exclusive deals, and more.</p>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <input type="email" placeholder="Enter your email" style="padding: 12px 15px; background: #1a1a1a; border: 1px solid #333; color: #fff; font-family: 'Montserrat'; outline: none;">
+                <button style="padding: 12px; background: #b76e79; color: #fff; border: none; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; cursor: pointer; transition: 0.3s;" onmouseover="this.style.background='#a15d67'" onmouseout="this.style.background='#b76e79'">Subscribe</button>
+            </div>
+        </div>
+
+    </div>
+
+    <hr style="border: 0; border-top: 1px solid #222; margin: 50px 0 30px;">
+
+    <div style="max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+        <p style="font-size: 12px; color: #666; margin: 0;">© 2026 NAVEERA BANARAS. Crafted by Artisans.</p>
+        
+        <div style="display: flex; gap: 15px; font-size: 24px; color: #444;">
+            <i class="fab fa-cc-visa"></i>
+            <i class="fab fa-cc-mastercard"></i>
+            <i class="fab fa-cc-amex"></i>
+            <i class="fab fa-cc-paypal"></i>
+            <i class="fas fa-money-check-alt" title="COD Available"></i>
+        </div>
+    </div>
+</footer>
+
+<style>
+    .footer-link { color: #999; text-decoration: none; transition: 0.3s; }
+    .footer-link:hover { color: #b76e79; padding-left: 8px; }
+    .social-icons a:hover { background: #b76e79 !important; transform: translateY(-3px); }
+</style>
 </html>

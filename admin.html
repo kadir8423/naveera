@@ -1,202 +1,278 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Naveera Admin | Inventory Control</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naveera Admin | Inventory Control</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, query, orderBy, getDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, query, orderBy, getDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyDKKtWZYnGOIK4vcKCwaNohBsEGSyXF0iA",
-    authDomain: "naveera-e82ab.firebaseapp.com",
-    projectId: "naveera-e82ab",
-    storageBucket: "naveera-e82ab.firebasestorage.app",
-    messagingSenderId: "531422327110",
-    appId: "1:531422327110:web:90d3092ec932fbb3643547"
-  };
+        const firebaseConfig = {
+            apiKey: "AIzaSyDKKtWZYnGOIK4vcKCwaNohBsEGSyXF0iA",
+            authDomain: "naveera-e82ab.firebaseapp.com",
+            projectId: "naveera-e82ab",
+            storageBucket: "naveera-e82ab.firebasestorage.app",
+            messagingSenderId: "531422327110",
+            appId: "1:531422327110:web:90d3092ec932fbb3643547"
+        };
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-  let editMode = false;
-  let currentEditId = null;
+        let editMode = false;
+        let currentEditId = null;
 
-  window.saveProduct = async function(e) {
-    e.preventDefault();
-    const name = document.getElementById("name").value.trim();
-    const price = Number(document.getElementById("price").value);
-    const oldPrice = document.getElementById("oldPrice").value ? Number(document.getElementById("oldPrice").value) : null;
-    const category = document.getElementById("category").value;
-    const fabric = document.getElementById("fabric").value.trim(); // Naya Field
-    const stock = Number(document.getElementById("stock").value);
-    const description = document.getElementById("description").value.trim();
-    const isDeal = document.getElementById("isDeal").checked;
-    const bulletPoints = document.getElementById("bulletPoints").value.trim().split('\n').filter(p => p !== "");
+        // --- SAVE FUNCTION ---
+        window.saveProduct = async function(e) {
+            e.preventDefault();
+            const submitBtn = document.getElementById("submit-btn");
+            submitBtn.innerText = "Processing...";
+            submitBtn.disabled = true;
 
-    const images = [
-        document.getElementById("img1").value.trim(),
-        document.getElementById("img2").value.trim(),
-        document.getElementById("img3").value.trim(),
-        document.getElementById("img4").value.trim()
-    ].filter(url => url !== "");
+            const name = document.getElementById("name").value.trim();
+            const price = Number(document.getElementById("price").value);
+            const oldPrice = document.getElementById("oldPrice").value ? Number(document.getElementById("oldPrice").value) : null;
+            const category = document.getElementById("category").value;
+            const fabric = document.getElementById("fabric").value.trim();
+            const stock = Number(document.getElementById("stock").value);
+            const description = document.getElementById("description").value.trim();
+            
+            // Updated logic for Luxury Suit Sets
+            const isLuxurySuit = document.getElementById("isLuxurySuit").checked;
+            const isNewArrival = document.getElementById("isNewArrival").checked;
+            const showOnHome = document.getElementById("showOnHome").checked;
+            const bestSeller = document.getElementById("bestSeller").checked;
+            
+            const weight = document.getElementById("weight").value.trim();
+            const craft = document.getElementById("craft").value.trim();
+            const zariType = document.getElementById("zariType").value.trim();
+            const color = document.getElementById("color").value.trim();
+            
+            const bulletPoints = document.getElementById("bulletPoints").value.trim().split('\n').filter(p => p !== "");
 
-    if (!name || !price || images.length === 0 || !category) {
-        alert("Bhai, Name, Price, Category aur kam se kam 1 Image zaroori hai!");
-        return;
-    }
+            const images = [
+                document.getElementById("img1").value.trim(),
+                document.getElementById("img2").value.trim(),
+                document.getElementById("img3").value.trim(),
+                document.getElementById("img4").value.trim()
+            ].filter(url => url !== "");
 
-    const productData = {
-        name, price, oldPrice, images, category, fabric, stock, description, isDeal,
-        features: bulletPoints,
-        timestamp: new Date()
-    };
+            if (!name || !price || images.length === 0 || !category) {
+                alert("Bhai, Name, Price, Category aur kam se kam 1 Image zaroori hai!");
+                submitBtn.innerText = editMode ? "Update Product Info" : "List Product On Naveera";
+                submitBtn.disabled = false;
+                return;
+            }
 
-    try {
-        if (editMode) {
-            await updateDoc(doc(db, "products", currentEditId), productData);
-            alert("Guru, Product update ho gaya! ✅");
-        } else {
-            await addDoc(collection(db, "products"), productData);
-            alert("Guru, Naya Product add ho gaya! 🚀");
+            const productData = {
+                name, price, oldPrice, images, category, fabric, stock, description, 
+                isLuxurySuit, isNewArrival, showOnHome, bestSeller,
+                weight, craft, zariType, color,
+                features: bulletPoints,
+                timestamp: new Date()
+            };
+
+            try {
+                if (editMode) {
+                    await updateDoc(doc(db, "products", currentEditId), productData);
+                    alert("Guru, Product update ho gaya! ✅");
+                } else {
+                    await addDoc(collection(db, "products"), productData);
+                    alert("Guru, Naya Product add ho gaya! 🚀");
+                }
+                resetForm();
+                fetchProducts(); 
+            } catch (err) {
+                alert("Error: " + err.message);
+            } finally {
+                submitBtn.disabled = false;
+            }
         }
-        resetForm();
-        fetchProducts(); 
-    } catch (err) {
-        alert("Error: " + err.message);
-    }
-  }
 
-  async function fetchProducts() {
-    const listDiv = document.getElementById("productList");
-    listDiv.innerHTML = "<p style='text-align:center;'>Inventory load ho rahi hai...</p>";
-    
-    try {
-        const q = query(collection(db, "products"), orderBy("timestamp", "desc"));
-        const snapshot = await getDocs(q);
-        listDiv.innerHTML = ""; 
+        // --- FETCH FUNCTION ---
+        async function fetchProducts() {
+            const listDiv = document.getElementById("productList");
+            listDiv.innerHTML = "<p style='text-align:center;'>Inventory load ho rahi hai...</p>";
+            
+            try {
+                const q = query(collection(db, "products"), orderBy("timestamp", "desc"));
+                const snapshot = await getDocs(q);
+                listDiv.innerHTML = ""; 
 
-        snapshot.forEach((pDoc) => {
-            const data = pDoc.data();
-            const id = pDoc.id;
-            const mainImg = data.images && data.images[0] ? data.images[0] : '';
+                snapshot.forEach((pDoc) => {
+                    const data = pDoc.data();
+                    const id = pDoc.id;
+                    const mainImg = data.images && data.images[0] ? data.images[0] : '';
 
-            listDiv.innerHTML += `
-                <div class="product-item">
-                    <div class="product-item-info">
-                        <img src="${mainImg}" class="img-preview" onerror="this.src='https://via.placeholder.com/50'">
-                        <div>
-                            <strong>${data.name}</strong> <small>(${data.category})</small>
-                            <br>
-                            <span style="color:#b76e79; font-weight:bold;">₹${data.price}</span> | Stock: ${data.stock}
+                    listDiv.innerHTML += `
+                        <div class="product-item">
+                            <div class="product-item-info">
+                                <img src="${mainImg}" class="img-preview" onerror="this.src='https://via.placeholder.com/50'">
+                                <div>
+                                    <strong>${data.name}</strong> <small>(${data.category})</small>
+                                    <br>
+                                    <span style="color:#b76e79; font-weight:bold;">₹${data.price}</span> | Stock: ${data.stock}
+                                    <div style="font-size:10px; margin-top:4px;">
+                                        ${data.isNewArrival ? '<span class="tag">New</span>' : ''}
+                                        ${data.showOnHome ? '<span class="tag">Home</span>' : ''}
+                                        ${data.bestSeller ? '<span class="tag">Best</span>' : ''}
+                                        ${data.isLuxurySuit ? '<span class="tag" style="background:#f4ecef; border:1px solid #b76e79; color:#b76e79;">Luxury Set</span>' : ''}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="action-btns">
+                                <button onclick="copyProduct('${id}')" class="btn-copy" title="Copy Listing"><i class="fas fa-copy"></i></button>
+                                <button onclick="prepareEdit('${id}')" class="btn-edit" title="Edit Product"><i class="fas fa-edit"></i></button>
+                                <button onclick="deleteProduct('${id}')" class="btn-delete" title="Delete Product"><i class="fas fa-trash"></i></button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="action-btns">
-                        <button onclick="copyProduct('${id}')" class="btn-copy"><i class="fas fa-copy"></i></button>
-                        <button onclick="prepareEdit('${id}')" class="btn-edit"><i class="fas fa-edit"></i></button>
-                        <button onclick="deleteProduct('${id}')" class="btn-delete"><i class="fas fa-trash"></i></button>
-                    </div>
-                </div>
-            `;
-        });
-    } catch (error) { listDiv.innerHTML = "Error loading products."; }
-  }
-
-  window.copyProduct = async function(id) {
-    try {
-        const docRef = doc(db, "products", id);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-            const data = docSnap.data();
-            resetForm();
-            document.getElementById("name").value = "Copy of " + data.name;
-            document.getElementById("price").value = data.price;
-            document.getElementById("oldPrice").value = data.oldPrice || "";
-            document.getElementById("category").value = data.category;
-            document.getElementById("fabric").value = data.fabric || "";
-            document.getElementById("stock").value = data.stock;
-            document.getElementById("description").value = data.description || "";
-            document.getElementById("isDeal").checked = data.isDeal || false;
-            document.getElementById("bulletPoints").value = data.features ? data.features.join('\n') : "";
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            alert("Bhai, Details copy ho gayi hain! Bas images check kar lein.");
+                    `;
+                });
+            } catch (error) { listDiv.innerHTML = "Error loading products."; }
         }
-    } catch (err) { alert("Copy error: " + err.message); }
-  }
 
-  window.prepareEdit = async function(id) {
-    const docSnap = await getDoc(doc(db, "products", id));
-    if(docSnap.exists()) {
-        const data = docSnap.data();
-        editMode = true;
-        currentEditId = id;
-        document.getElementById("form-title").innerText = "Edit Product Mode";
-        document.getElementById("submit-btn").innerText = "Update Product Info";
-        document.getElementById("cancel-edit").style.display = "block";
+        // --- COPY FUNCTION ---
+        window.copyProduct = async function(id) {
+            try {
+                const docSnap = await getDoc(doc(db, "products", id));
+                if(docSnap.exists()) {
+                    const data = docSnap.data();
+                    resetForm();
+                    
+                    document.getElementById("form-title").innerText = "Copy Product (New Listing)";
+                    document.getElementById("submit-btn").innerText = "List Copied Product";
+                    document.getElementById("cancel-edit").style.display = "block";
 
-        document.getElementById("name").value = data.name;
-        document.getElementById("price").value = data.price;
-        document.getElementById("oldPrice").value = data.oldPrice || "";
-        document.getElementById("category").value = data.category;
-        document.getElementById("fabric").value = data.fabric || "";
-        document.getElementById("stock").value = data.stock;
-        document.getElementById("description").value = data.description;
-        document.getElementById("isDeal").checked = data.isDeal;
-        document.getElementById("bulletPoints").value = data.features ? data.features.join('\n') : "";
-        
-        document.getElementById("img1").value = data.images[0] || "";
-        document.getElementById("img2").value = data.images[1] || "";
-        document.getElementById("img3").value = data.images[2] || "";
-        document.getElementById("img4").value = data.images[3] || "";
+                    document.getElementById("name").value = data.name + " (Copy)";
+                    document.getElementById("price").value = data.price;
+                    document.getElementById("oldPrice").value = data.oldPrice || "";
+                    document.getElementById("category").value = data.category;
+                    document.getElementById("fabric").value = data.fabric || "";
+                    document.getElementById("stock").value = data.stock;
+                    document.getElementById("description").value = data.description;
+                    
+                    document.getElementById("isLuxurySuit").checked = data.isLuxurySuit || false;
+                    document.getElementById("isNewArrival").checked = data.isNewArrival || false;
+                    document.getElementById("showOnHome").checked = data.showOnHome || false;
+                    document.getElementById("bestSeller").checked = data.bestSeller || false;
 
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }
+                    document.getElementById("weight").value = data.weight || "";
+                    document.getElementById("craft").value = data.craft || "";
+                    document.getElementById("zariType").value = data.zariType || "";
+                    document.getElementById("color").value = data.color || "";
+                    document.getElementById("bulletPoints").value = data.features ? data.features.join('\n') : "";
+                    
+                    if(data.images) {
+                        data.images.forEach((url, i) => {
+                            if(i < 4) document.getElementById(`img${i+1}`).value = url;
+                        });
+                    }
 
-  window.resetForm = function() {
-    editMode = false;
-    currentEditId = null;
-    document.getElementById("productForm").reset();
-    document.getElementById("form-title").innerText = "Naveera Admin Panel";
-    document.getElementById("submit-btn").innerText = "List Product On Naveera";
-    document.getElementById("cancel-edit").style.display = "none";
-  }
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            } catch (err) { alert("Copy error: " + err.message); }
+        }
 
-  window.deleteProduct = async function(id) {
-    if(confirm("Pakka delete karna hai?")) {
-        await deleteDoc(doc(db, "products", id));
+        // --- PREPARE EDIT ---
+        window.prepareEdit = async function(id) {
+            const docSnap = await getDoc(doc(db, "products", id));
+            if(docSnap.exists()) {
+                const data = docSnap.data();
+                editMode = true;
+                currentEditId = id;
+                document.getElementById("form-title").innerText = "Edit Product Mode";
+                document.getElementById("submit-btn").innerText = "Update Product Info";
+                document.getElementById("cancel-edit").style.display = "block";
+
+                document.getElementById("name").value = data.name;
+                document.getElementById("price").value = data.price;
+                document.getElementById("oldPrice").value = data.oldPrice || "";
+                document.getElementById("category").value = data.category;
+                document.getElementById("fabric").value = data.fabric || "";
+                document.getElementById("stock").value = data.stock;
+                document.getElementById("description").value = data.description;
+                
+                document.getElementById("isLuxurySuit").checked = data.isLuxurySuit || false;
+                document.getElementById("isNewArrival").checked = data.isNewArrival || false;
+                document.getElementById("showOnHome").checked = data.showOnHome || false;
+                document.getElementById("bestSeller").checked = data.bestSeller || false;
+
+                document.getElementById("weight").value = data.weight || "";
+                document.getElementById("craft").value = data.craft || "";
+                document.getElementById("zariType").value = data.zariType || "";
+                document.getElementById("color").value = data.color || "";
+                document.getElementById("bulletPoints").value = data.features ? data.features.join('\n') : "";
+                
+                for(let i=1; i<=4; i++) document.getElementById(`img${i}`).value = "";
+                if(data.images) {
+                    data.images.forEach((url, i) => {
+                        if(i < 4) document.getElementById(`img${i+1}`).value = url;
+                    });
+                }
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // --- RESET FORM ---
+        window.resetForm = function() {
+            editMode = false;
+            currentEditId = null;
+            document.getElementById("productForm").reset();
+            document.getElementById("form-title").innerText = "Naveera Admin Panel";
+            document.getElementById("submit-btn").innerText = "List Product On Naveera";
+            document.getElementById("cancel-edit").style.display = "none";
+        }
+
+        // --- DELETE FUNCTION ---
+        window.deleteProduct = async function(id) {
+            if(confirm("Pakka delete karna hai? Ye wapas nahi aayega!")) {
+                try {
+                    await deleteDoc(doc(db, "products", id));
+                    fetchProducts();
+                } catch (err) { alert("Delete error: " + err.message); }
+            }
+        }
+
         fetchProducts();
-    }
-  }
+    </script>
 
-  fetchProducts();
-</script>
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #f4f7f6; margin:0; padding:15px; color: #333; }
+        .container { max-width: 850px; margin: auto; background:white; padding:20px; border-radius:15px; box-shadow:0 10px 25px rgba(0,0,0,0.05);}
+        h1 { font-size: 22px; text-align: center; margin-bottom: 20px; color: #b76e79; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .full-width { grid-column: span 2; }
+        label { display:block; margin-top:10px; font-weight:600; font-size: 12px; color: #666; text-transform: uppercase; }
+        input, select, textarea { width:100%; padding:12px; margin-top:5px; border-radius:8px; border:1px solid #ddd; box-sizing: border-box; font-family: inherit; font-size: 14px; }
+        
+        .flags-container { grid-column: span 2; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; background: #fffcf2; padding: 15px; border-radius: 10px; border: 1px solid #ffecb3; }
+        .checkbox-item { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 500; }
+        .checkbox-item input { width: auto; margin: 0; cursor: pointer; }
+        .tag { font-size: 9px; padding: 2px 6px; background: #eee; border-radius: 4px; margin-right: 3px; font-weight: bold; text-transform: uppercase; color: #666; }
 
-<style>
-  body { font-family: 'Poppins', sans-serif; background: #f4f7f6; margin:0; padding:15px; color: #333; }
-  .container { max-width: 800px; margin: auto; background:white; padding:20px; border-radius:15px; box-shadow:0 10px 25px rgba(0,0,0,0.05);}
-  h1 { font-size: 22px; text-align: center; margin-bottom: 20px; color: #b76e79; }
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-  .full-width { grid-column: span 2; }
-  label { display:block; margin-top:10px; font-weight:600; font-size: 13px; color: #666; }
-  input, select, textarea { width:100%; padding:12px; margin-top:5px; border-radius:8px; border:1px solid #ddd; box-sizing: border-box; font-family: inherit; font-size: 14px; }
-  .image-box { background: #fafafa; border: 1px solid #eee; padding: 15px; border-radius: 10px; margin-top: 10px; }
-  .deal-checkbox-container { grid-column: span 2; background: #fff5f6; padding: 12px; border-radius: 8px; border: 1px dashed #b76e79; display: flex; align-items: center; gap: 10px; }
-  #submit-btn { margin-top:20px; padding:15px; background:#b76e79; color:white; border:none; border-radius:8px; cursor:pointer; font-size:16px; width:100%; font-weight: 600; }
-  #cancel-edit { background: #666; margin-top: 10px; padding:12px; color:white; border:none; border-radius:8px; width:100%; cursor:pointer; }
-  .product-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #fff; border-radius: 12px; margin-bottom: 10px; border: 1px solid #eee; }
-  .img-preview { width: 50px; height: 50px; object-fit: contain; background: #f9f9f9; border-radius: 6px; }
-  .action-btns { display: flex; gap: 5px; }
-  .action-btns button { border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; color: white; }
-  .btn-copy { background: #2ecc71; }
-  .btn-edit { background: #4a90e2; }
-  .btn-delete { background: #ff4d4d; }
-  @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } .full-width { grid-column: span 1; } }
-</style>
+        .spec-box { background: #f9f9f9; padding: 15px; border-radius: 10px; border: 1px solid #eee; margin-top: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .image-box { background: #fafafa; border: 1px solid #eee; padding: 15px; border-radius: 10px; margin-top: 10px; }
+        
+        #submit-btn { margin-top:20px; padding:15px; background:#b76e79; color:white; border:none; border-radius:8px; cursor:pointer; font-size:16px; width:100%; font-weight: 600; transition: 0.3s; }
+        #submit-btn:hover:not(:disabled) { background: #a15d67; }
+        #submit-btn:disabled { background: #ccc; cursor: not-allowed; }
+        #cancel-edit { background: #666; margin-top: 10px; padding:12px; color:white; border:none; border-radius:8px; width:100%; cursor:pointer; }
+        
+        .product-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #fff; border-radius: 12px; margin-bottom: 10px; border: 1px solid #eee; transition: 0.3s; }
+        .product-item-info { display: flex; align-items: center; gap: 15px; }
+        .img-preview { width: 50px; height: 50px; object-fit: cover; background: #f9f9f9; border-radius: 6px; }
+        .action-btns { display: flex; gap: 5px; }
+        .action-btns button { border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; color: white; transition: 0.2s; }
+        .btn-copy { background: #2ecc71; }
+        .btn-edit { background: #4a90e2; }
+        .btn-delete { background: #ff4d4d; }
+        @media (max-width: 600px) { .form-grid, .spec-box, .flags-container { grid-template-columns: 1fr; } .full-width { grid-column: span 1; } }
+    </style>
 </head>
 <body>
 
@@ -206,8 +282,9 @@
         <div class="form-grid">
             <div class="full-width">
                 <label>Product Name *</label>
-                <input type="text" id="name" placeholder="e.g. Pure Banarasi Silk Saree" required>
+                <input type="text" id="name" placeholder="e.g. Katan Minakari Buta Saree" required>
             </div>
+            
             <div><label>Price (₹) *</label><input type="number" id="price" required></div>
             <div><label>Old Price (MRP)</label><input type="number" id="oldPrice" placeholder="Optional"></div>
             
@@ -219,14 +296,25 @@
                     <option value="Dupatta">Dupatta</option>
                 </select>
             </div>
-            <div><label>Fabric / Material *</label><input type="text" id="fabric" placeholder="e.g. Handloom Cotton" required></div>
-            
-            <div><label>Stock Qty *</label><input type="number" id="stock" value="1" required></div>
+            <div><label>Fabric / Material *</label><input type="text" id="fabric" placeholder="e.g. Pure Katan Silk" required></div>
 
-            <div class="deal-checkbox-container">
-                <input type="checkbox" id="isDeal">
-                <label for="isDeal" style="margin:0;">List in "Deal of the Week"</label>
+            <div class="flags-container">
+                <div style="grid-column: 1/-1; font-size: 11px; font-weight: bold; color: #856404;">DISPLAY SETTINGS</div>
+                <div class="checkbox-item"><input type="checkbox" id="isNewArrival"> <label for="isNewArrival" style="margin:0;">Mark as New Arrival</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="showOnHome"> <label for="showOnHome" style="margin:0;">Show on Home Page</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="bestSeller"> <label for="bestSeller" style="margin:0;">Best Seller (Slider)</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="isLuxurySuit"> <label for="isLuxurySuit" style="margin:0;">Luxury Suit Set</label></div>
             </div>
+
+            <div class="full-width spec-box">
+                <div style="grid-column: span 2; font-size: 11px; font-weight: bold; color: #b76e79;">PRODUCT SPECIFICATIONS</div>
+                <div><label>Weight (e.g. 800gm)</label><input type="text" id="weight"></div>
+                <div><label>Craft (e.g. Handloom)</label><input type="text" id="craft"></div>
+                <div><label>Zari Type (e.g. Gold/Silver)</label><input type="text" id="zariType"></div>
+                <div><label>Main Color</label><input type="text" id="color"></div>
+            </div>
+
+            <div><label>Stock Qty *</label><input type="number" id="stock" value="1" required></div>
 
             <div class="full-width image-box">
                 <label>Image URLs (At least 1 required)</label>
@@ -237,12 +325,12 @@
             </div>
 
             <div class="full-width">
-                <label>Short Description *</label>
-                <textarea id="description" rows="2" placeholder="Briefly describe the product..." required></textarea>
+                <label>Long Description (The Story)</label>
+                <textarea id="description" rows="3" placeholder="Tell the story of this weave..." required></textarea>
             </div>
             <div class="full-width">
-                <label>Specifications (One per line - Use 'Label: Value')</label>
-                <textarea id="bulletPoints" rows="4" placeholder="Work: Heavy Zari&#10;Style: Unstitched&#10;Origin: Varanasi"></textarea>
+                <label>Bullet Points / Highlights (One per line)</label>
+                <textarea id="bulletPoints" rows="3" placeholder="Silk Mark Certified&#10;Includes Running Blouse&#10;Dry Clean Only"></textarea>
             </div>
         </div>
         
@@ -251,7 +339,7 @@
     </form>
 
     <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
-    <h2>Current Inventory</h2>
+    <h2 style="font-size: 20px; color: #444;">Current Inventory</h2>
     <div id="productList"></div>
 </div>
 

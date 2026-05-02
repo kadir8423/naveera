@@ -3,215 +3,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Naveera | The Soul of Banaras</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <title>Naveera Fashion | Handcrafted Luxury</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    
     <style>
-        :root { --premium-gold: #b76e79; --deep-black: #1a1a1a; --soft-cream: #fdfaf7; }
-        body { margin: 0; font-family: 'Montserrat', sans-serif; background: #fff; color: #333; overflow-x: hidden; }
-        h1, h2, h3, h4, .logo { font-family: 'Playfair Display', serif; }
-        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        :root { --accent: #b8860b; --text: #222; --bg: #fff; --light-gray: #f9f9f9; }
+        body { margin:0; font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+        h1, h2, h3, .logo { font-family: 'Playfair Display', serif; }
+        a { text-decoration:none; color: inherit; transition: 0.3s; }
 
-        /* 1. ANNOUNCEMENT & WHATSAPP */
-        .announcement-bar {
-            background: #000; color: white; height: 35px; display: flex; align-items: center; justify-content: center;
-            font-size: 11px; font-weight: 500; letter-spacing: 1.5px; position: sticky; top: 0; z-index: 3000;
-        }
-        .whatsapp-float {
-            position: fixed; bottom: 30px; right: 30px; background: #25d366; color: white;
-            width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 30px; z-index: 5000; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
+        /* --- SWIPER MANDATORY CSS --- */
+        .hero-swiper { width: 100%; height: 85vh; position: relative; overflow: hidden; }
+        .hero-swiper img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* 2. NAVBAR */
-        .navbar { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 0 50px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
-            position: sticky; top: 35px; z-index: 2000; height: 80px; border-bottom: 1px solid #eee;
-        }
-        .logo { font-size: 35px; font-weight: 700; color: #000; letter-spacing: 3px; cursor: pointer; }
-        .nav-center a { margin: 0 15px; font-size: 13px; font-weight: 600; letter-spacing: 2px; }
-        .nav-center a:hover { color: var(--premium-gold); }
-
-        /* 3. HERO SLIDER */
-        .slider-wrapper { position: relative; width: 100%; height: 85vh; overflow: hidden; }
-        .slider { display: flex; width: 300%; height: 100%; animation: slideAnimation 15s infinite; }
-        .slide { width: 100.33%; height: 100%; background-size: cover !important; background-position: center !important; }
+        /* --- LOGO & NAVBAR --- */
+        .brand-identity { text-align: center; padding: 20px 0; background: #fff; cursor: pointer; }
+        .logo-bold { font-size: 42px; font-weight: 700; letter-spacing: 5px; color: #000; display: block; line-height: 1; }
+        .logo-fashion { font-family: 'Playfair Display', serif; font-size: 16px; font-style: italic; letter-spacing: 8px; text-transform: uppercase; color: var(--accent); margin-top: 5px; display: block; }
+        .announcement-bar { background: #111; color: #d4af37; height: 35px; display: flex; align-items: center; justify-content: center; font-size: 11px; letter-spacing: 1.5px; }
+        .navbar { display: flex; justify-content: center; align-items: center; background: white; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 2000; height: 65px; }
+        .nav-center a { margin: 0 20px; font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; }
         
-        @keyframes slideAnimation {
-            0%, 30% { transform: translateX(0); }
-            33%, 63% { transform: translateX(-33.33%); }
-            66%, 96% { transform: translateX(-66.66%); }
-            100% { transform: translateX(0); }
+        /* --- DYNAMIC CIRCLE MENU --- */
+        .circle-menu-section { padding: 50px 0; background: #ffffff; }
+        .circle-container { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
+        .circle-item { text-align: center; width: 140px; cursor: pointer; }
+        .circle-img-box { width: 140px; height: 140px; border-radius: 50%; overflow: hidden; border: 1px solid #e0e0e0; margin-bottom: 15px; transition: transform 0.5s ease; }
+        .circle-img-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .circle-item:hover .circle-img-box img { transform: scale(1.1); }
+        .circle-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* --- GRIDS & CARDS --- */
+        .section-container { max-width: 1500px; margin: 60px auto; padding: 0 40px; }
+        .section-title { text-align: center; margin-bottom: 40px; }
+        .section-title h2 { font-size: 30px; font-weight: 500; text-transform: uppercase; letter-spacing: 2px; position: relative; display: inline-block; padding-bottom: 10px; }
+        .section-title h2::after { content: ''; width: 50px; height: 2px; background: var(--accent); position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); }
+        
+        .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; }
+        .grid-4x2 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        
+        .product-card { transition: 0.3s; cursor: pointer; }
+        .product-card:hover { transform: translateY(-5px); }
+        .img-wrapper { position: relative; aspect-ratio: 3/4; overflow: hidden; background: #f9f9f9; }
+        .img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+        .product-info { padding: 15px 5px; text-align: center; }
+        .product-name { font-size: 13px; font-weight: 500; margin-bottom: 5px; color: #333; }
+        .price { font-weight: 700; color: #000; margin-top: 5px; }
+        
+        .view-all-btn { display: block; width: fit-content; margin: 30px auto; padding: 12px 40px; border: 1px solid #000; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+        .view-all-btn:hover { background: #000; color: #fff; }
+
+        /* --- FEEDBACK SLIDER --- */
+        .feedback-section { background: var(--light-gray); padding: 80px 0; }
+        .feedback-swiper { max-width: 1000px; margin: auto; padding: 20px; }
+        .feedback-card { background: #fff; padding: 30px; text-align: center; border: 1px solid #eee; border-radius: 5px; }
+        .feedback-card img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; }
+        .stars { color: var(--accent); margin-bottom: 10px; }
+        .feedback-text { font-style: italic; font-size: 14px; color: #555; }
+
+        /* --- FOOTER --- */
+        .main-footer { background: #111; color: #fff; padding: 80px 50px 30px; }
+        .footer-container { max-width: 1500px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 40px; }
+
+        @media (max-width: 1024px) {
+            .grid-5, .grid-4x2 { grid-template-columns: repeat(2, 1fr); }
+            .hero-swiper { height: 50vh; }
+            .circle-container { gap: 20px; }
+            .circle-item { width: 100px; }
+            .circle-img-box { width: 100px; height: 100px; }
         }
-
-        /* 4. CIRCLE MENU */
-        .category-menu {
-            display: flex; justify-content: center; gap: 50px; padding: 60px 20px;
-            background: #fff; flex-wrap: wrap;
-        }
-        .cat-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; width: 120px; }
-        .cat-circle {
-            width: 110px; height: 110px; border-radius: 50%; background: var(--soft-cream);
-            margin-bottom: 15px; border: 1px solid #eee; transition: 0.4s ease;
-            overflow: hidden; display: flex; align-items: center; justify-content: center;
-        }
-        .cat-circle img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s ease; }
-        .cat-item:hover .cat-circle img { transform: scale(1.15); }
-        .cat-item:hover .cat-circle { border-color: var(--premium-gold); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .cat-item span { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #333; }
-
-        /* 5. SHARED SECTION STYLES */
-        .section-header { text-align: center; margin: 60px 0 40px; }
-        .section-header h2 { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 400; font-style: italic; color: #1a1a1a; margin: 0; }
-        .section-header .line { width: 50px; height: 1.5px; background: var(--premium-gold); margin: 15px auto; }
-
-        /* 6. PRODUCT GRIDS */
-        .products-grid-8 { 
-            display: grid; grid-template-columns: repeat(4, 1fr); 
-            gap: 25px; max-width: 1300px; margin: 0 auto 30px; padding: 0 20px;
-        }
-        .product-card { cursor: pointer; text-align: center; }
-        .img-box { width: 100%; height: 450px; overflow: hidden; position: relative; background: #f9f9f9; }
-        .img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s; }
-        .product-card:hover img { transform: scale(1.05); }
-        .product-title { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin: 15px 0 5px; font-weight: 600; }
-        .price-tag { font-weight: 500; font-size: 14px; color: var(--premium-gold); }
-
-        .view-all-container { text-align: center; margin-bottom: 80px; }
-        .view-all-btn { 
-            display: inline-flex; align-items: center; gap: 10px; 
-            font-size: 12px; font-weight: 700; text-transform: uppercase; 
-            letter-spacing: 2px; color: #111; border-bottom: 1px solid var(--premium-gold); 
-            padding-bottom: 3px; transition: 0.3s;
-        }
-        .view-all-btn:hover { color: var(--premium-gold); gap: 15px; }
-
-        /* HERITAGE */
-        .heritage-section { background: var(--soft-cream); display: flex; align-items: center; padding: 80px 50px; gap: 60px; }
-        .heritage-img-box { flex: 1.2; height: 500px; }
-        .heritage-img-box img { width: 100%; height: 100%; object-fit: cover; }
-        .heritage-text { flex: 1; }
-
-        .full-width-banner { width: 100%; height: 500px; background: url(https://i.postimg.cc/CxB2g7TT/saree-2.jpg) no-repeat center center; background-size: cover; background-attachment: fixed; margin: 60px 0; }
-
-        footer { background: #111; color: #fff; padding: 60px 50px 30px; }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 50px; max-width: 1300px; margin: 0 auto; }
-
-        @media (max-width: 992px) { .products-grid-8 { grid-template-columns: repeat(2, 1fr); } .navbar { padding: 0 20px; } }
     </style>
 </head>
 <body>
 
-    <a href="https://wa.me/916386885929" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
-    <div class="announcement-bar">✨ DIRECT FROM VARANASI LOOMS • FREE SHIPPING ACROSS INDIA ✨</div>
+    <div class="announcement-bar">THE ART OF BANARASI WEAVING • WORLDWIDE SHIPPING</div>
 
-    <div class="navbar">
-        <div class="logo" onclick="window.location.href='index.html'">NAVEERA</div>
-        <div class="nav-center">
-            <a href="sarees.html">SAREES</a>
-            <a href="salwar-shop.html">SUITS</a>
-            <a href="dupatta.html">DUPATTAS</a>
-            <a href="story.html">OUR STORY</a>
+    <a href="index.html" style="display: block;">
+        <div class="brand-identity">
+            <span class="logo-bold">NAVEERA</span>
+            <span class="logo-fashion">Fashion</span>
         </div>
-        <div class="nav-right">
-            <i class="fas fa-search" style="margin-right: 20px; cursor: pointer;"></i>
-            <i class="fas fa-shopping-bag" style="cursor: pointer;"></i>
+    </a>
+
+    <header class="navbar">
+        <nav class="nav-center">
+            <a href="index.html">Home</a>
+            <a href="sarees.html">Sarees</a>
+            <a href="salwar-shop.html">Suits</a>
+            <a href="dupatta.html">Dupattas</a>
+        </nav>
+    </header>
+
+    <!-- HERO SLIDER -->
+    <div class="swiper hero-swiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"><a href="salwar-shop.html"><img src="https://i.postimg.cc/LhF557kr/Gemini-Generated-Image-d68d5od68d5od68d.png"></a></div>
+            <div class="swiper-slide"><a href="sarees.html"><img src="https://i.postimg.cc/Vkbg3b51/Gemini-Generated-Image-8d7zq88d7zq88d7z.png"></a></div>
+            <div class="swiper-slide"><a href="dupatta.html"><img src="https://i.postimg.cc/CxBSBYLv/Gemini-Generated-Image-yg0udayg0udayg0u.png"></a></div>
         </div>
+        <div class="swiper-pagination"></div>
     </div>
 
-    <div class="slider-wrapper">
-        <div class="slider">
-            <div class="slide" style="background: url('https://i.postimg.cc/wMTrrgTb/siote-1.jpg')"></div>
-            <div class="slide" style="background: url('https://i.postimg.cc/44L2dCx6/suit.jpg')"></div>
-            <div class="slide" style="background: url('https://i.postimg.cc/3Jgyc5Nj/dupatta.jpg')"></div>
-        </div>
-    </div>
-
-    <section class="category-menu">
-        <div class="cat-item" onclick="window.location.href='sarees.html'">
-            <div class="cat-circle"><img src="https://i.postimg.cc/wMTrrgTb/siote-1.jpg" alt="Sarees"></div>
-            <span>Sarees</span>
-        </div>
-        <div class="cat-item" onclick="window.location.href='salwar-shop.html'">
-            <div class="cat-circle"><img src="https://i.postimg.cc/44L2dCx6/suit.jpg" alt="Suits"></div>
-            <span>Suit Sets</span>
-        </div>
-        <div class="cat-item" onclick="window.location.href='dupatta.html'">
-            <div class="cat-circle"><img src="https://i.postimg.cc/3Jgyc5Nj/dupatta.jpg" alt="Dupattas"></div>
-            <span>Dupattas</span>
-        </div>
-        <div class="cat-item" onclick="window.location.href='sarees.html'">
-            <div class="cat-circle"><img src="https://i.postimg.cc/wMTrrgTb/siote-1.jpg" alt="Luxury"></div>
-            <span>Luxury</span>
+    <!-- CIRCLE MENU -->
+    <section class="circle-menu-section">
+        <div class="circle-container">
+            <a href="sarees.html" class="circle-item">
+                <div class="circle-img-box"><img src="https://i.postimg.cc/0NHcFRqK/Gemini-Generated-Image-mfw49amfw49amfw4.png"></div>
+                <div class="circle-label">Sarees</div>
+            </a>
+            <a href="salwar-shop.html" class="circle-item">
+                <div class="circle-img-box"><img src="https://i.postimg.cc/ZKZFfKyX/Chat-GPT-Image-Mar-18-2026-10-52-42-AM.png"></div>
+                <div class="circle-label">Suits</div>
+            </a>
+            <a href="dupatta.html" class="circle-item">
+                <div class="circle-img-box"><img src="https://i.postimg.cc/tRDYjXMh/pur.jpg"></div>
+                <div class="circle-label">Dupattas</div>
+            </a>
         </div>
     </section>
 
-    <div class="section-header">
-        <h2>Shop By Katan Suit</h2>
-        <div class="line"></div>
-    </div>
-    <div class="products-grid-8" id="katan-suits-home">
-        <div class="product-card" onclick="window.location.href='salwar-shop.html'"><div class="img-box"><img src="https://i.postimg.cc/44L2dCx6/suit.jpg"></div><div class="product-title">Midnight Katan Suit</div><div class="price-tag">₹6,500</div></div>
-        <div class="product-card" onclick="window.location.href='salwar-shop.html'"><div class="img-box"><img src="https://i.postimg.cc/44L2dCx6/suit.jpg"></div><div class="product-title">Ruby Floral Suit</div><div class="price-tag">₹5,200</div></div>
-        <div class="product-card" onclick="window.location.href='salwar-shop.html'"><div class="img-box"><img src="https://i.postimg.cc/44L2dCx6/suit.jpg"></div><div class="product-title">Emerald Zari Suit</div><div class="price-tag">₹7,100</div></div>
-        <div class="product-card" onclick="window.location.href='salwar-shop.html'"><div class="img-box"><img src="https://i.postimg.cc/44L2dCx6/suit.jpg"></div><div class="product-title">Golden Amber Suit</div><div class="price-tag">₹6,800</div></div>
-    </div>
-    <div class="view-all-container">
-        <a href="salwar-shop.html" class="view-all-btn">View All Suits <i class="fas fa-long-arrow-alt-right"></i></a>
+    <!-- BANARASI SUITS SECTION -->
+    <div class="section-container">
+        <div class="section-title"><h2>Banarasi Suit Sets</h2></div>
+        <div class="grid-4x2" id="suit-list-home"></div>
+        <a href="salwar-shop.html" class="view-all-btn">View All Suits</a>
     </div>
 
-    <div class="section-header">
-        <h2>New Arrivals</h2>
-        <div class="line"></div>
-    </div>
-    <div class="products-grid-8" id="new-arrivals-home">
-        <div class="product-card" onclick="window.location.href='sarees.html'"><div class="img-box"><img src="https://i.postimg.cc/wMTrrgTb/siote-1.jpg"></div><div class="product-title">Zari Buti Saree</div><div class="price-tag">₹4,800</div></div>
-        <div class="product-card" onclick="window.location.href='salwar-shop.html'"><div class="img-box"><img src="https://i.postimg.cc/44L2dCx6/suit.jpg"></div><div class="product-title">Katan Silk Suit</div><div class="price-tag">₹7,200</div></div>
-        <div class="product-card" onclick="window.location.href='sarees.html'"><div class="img-box"><img src="https://i.postimg.cc/wMTrrgTb/siote-1.jpg"></div><div class="product-title">Peach Weave Saree</div><div class="price-tag">₹6,200</div></div>
-        <div class="product-card" onclick="window.location.href='salwar-shop.html'"><div class="img-box"><img src="https://i.postimg.cc/44L2dCx6/suit.jpg"></div><div class="product-title">Mint Floral Suit</div><div class="price-tag">₹5,400</div></div>
-    </div>
-    <div class="view-all-container">
-        <a href="sarees.html" class="view-all-btn">View New Arrivals <i class="fas fa-long-arrow-alt-right"></i></a>
+    <!-- NEW ARRIVALS -->
+    <div class="section-container">
+        <div class="section-title"><h2>New Arrivals</h2></div>
+        <div class="grid-5" id="new-arrivals-list"></div>
+        <a href="shop-all.html" class="view-all-btn">View All New Arrivals</a>
     </div>
 
-    <section class="heritage-section">
-        <div class="heritage-img-box"><img src="https://i.postimg.cc/Y9n459nX/Chat-GPT-Image-Apr-22-2026-02-46-06-PM.png"></div>
-        <div class="heritage-text">
-            <h2>The Soul of Kashi, Woven into Every Thread.</h2>
-            <p>Banarasi silk isn't just a fabric; it's a 500-year-old legacy preserved by master artisans from Varanasi.</p>
+    <!-- BANARASI SAREES SECTION -->
+    <div class="section-container">
+        <div class="section-title"><h2>Banarasi Sarees</h2></div>
+        <div class="grid-4x2" id="saree-list-home"></div>
+        <a href="sarees.html" class="view-all-btn">View All Sarees</a>
+    </div>
+
+    <!-- CUSTOMER FEEDBACK SLIDER -->
+    <section class="feedback-section">
+        <div class="section-title"><h2>Client Love</h2></div>
+        <div class="swiper feedback-swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="feedback-card">
+                        <img src="https://i.postimg.cc/0NHcFRqK/Gemini-Generated-Image-mfw49amfw49amfw4.png" alt="Product">
+                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <p class="feedback-text">"The fabric quality is amazing. Best Banarasi suit I've ever purchased!"</p>
+                        <strong>- Priya Sharma</strong>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="feedback-card">
+                        <img src="https://i.postimg.cc/tRDYjXMh/pur.jpg" alt="Product">
+                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <p class="feedback-text">"Beautiful Dupatta, the handwork is so intricate. Highly recommend Naveera!"</p>
+                        <strong>- Anjali Gupta</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
         </div>
     </section>
 
-    <div class="section-header">
-        <h2>Best Sellers</h2>
-        <div class="line"></div>
-    </div>
-    <div class="products-grid-8" id="best-sellers-home">
-        <div class="product-card" onclick="window.location.href='sarees.html'"><div class="img-box"><img src="https://i.postimg.cc/wMTrrgTb/siote-1.jpg"></div><div class="product-title">Signature Saree</div><div class="price-tag">₹18,500</div></div>
-        <div class="product-card" onclick="window.location.href='salwar-shop.html'"><div class="img-box"><img src="https://i.postimg.cc/44L2dCx6/suit.jpg"></div><div class="product-title">Top Rated Suit</div><div class="price-tag">₹8,500</div></div>
-    </div>
-    <div class="view-all-container">
-        <a href="sarees.html" class="view-all-btn">Explore Best Sellers <i class="fas fa-long-arrow-alt-right"></i></a>
+    <!-- BEST SELLERS -->
+    <div class="section-container">
+        <div class="section-title"><h2>Best Sellers</h2></div>
+        <div class="grid-5" id="best-seller-list"></div>
+        <a href="shop-all.html" class="view-all-btn">View All Best Sellers</a>
     </div>
 
-    <footer>
-        <div class="footer-grid">
+    <footer class="main-footer">
+        <div class="footer-container">
             <div class="footer-col">
-                <h2 class="logo" style="color: #fff; margin-top: 0;">NAVEERA</h2>
-                <p>Preserving the ancient art of Banarasi weaving.</p>
+                <h4>NAVEERA Fashion</h4>
+                <p>Preserving the timeless heritage of Banarasi craftsmanship.</p>
             </div>
-            <div class="footer-col">
-                <h4>Contact Us</h4>
-                <p>Pilikothi, Varanasi | +91 6386885929</p>
-            </div>
-        </div>
-        <div style="text-align: center; font-size: 11px; margin-top: 40px; color: #666;">
-            © 2026 NAVEERA BANARAS. HANDCRAFTED IN INDIA.
         </div>
     </footer>
 
-    <script src="products.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs, limit } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+        // APKA REAL CONFIG (Maine aapke pichle message se nikal kar yaha fit kiya hai)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDKKtWZYnGOIK4vcKCwaNohBsEGSyXF0iA",
+            authDomain: "naveera-e82ab.firebaseapp.com",
+            projectId: "naveera-e82ab",
+            storageBucket: "naveera-e82ab.firebasestorage.app",
+            messagingSenderId: "531422327110",
+            appId: "1:531422327110:web:90d3092ec932fbb3643547"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Swiper Initializations - Fixes Slider stopping issue
+        function initSliders() {
+            new Swiper(".hero-swiper", {
+                loop: true,
+                speed: 1000,
+                autoplay: { 
+                    delay: 3500,
+                    disableOnInteraction: false,
+                },
+                pagination: { el: ".swiper-pagination", clickable: true },
+            });
+
+            new Swiper(".feedback-swiper", {
+                loop: true,
+                slidesPerView: 1,
+                spaceBetween: 30,
+                autoplay: { delay: 4000 },
+                breakpoints: { 768: { slidesPerView: 2 } },
+                pagination: { el: ".swiper-pagination", clickable: true },
+            });
+        }
+
+        async function loadHomeContent() {
+            try {
+                // 1. Suits (8 items)
+                const qSuit = query(collection(db, "products"), where("category", "==", "Salwar Suit"), limit(8));
+                const snapSuit = await getDocs(qSuit);
+                renderData(snapSuit, "suit-list-home");
+
+                // 2. New Arrivals (5 items)
+                const qNew = query(collection(db, "products"), where("isNewArrival", "==", true), limit(5));
+                const snapNew = await getDocs(qNew);
+                renderData(snapNew, "new-arrivals-list");
+
+                // 3. Sarees (8 items)
+                const qSaree = query(collection(db, "products"), where("category", "==", "Saree"), limit(8));
+                const snapSaree = await getDocs(qSaree);
+                renderData(snapSaree, "saree-list-home");
+
+                // 4. Best Sellers (5 items)
+                const qBest = query(collection(db, "products"), where("bestSeller", "==", true), limit(5));
+                const snapBest = await getDocs(qBest);
+                renderData(snapBest, "best-seller-list");
+
+            } catch (e) { 
+                console.error("Firebase Error:", e); 
+            }
+        }
+
+        function renderData(snap, divId) {
+            const container = document.getElementById(divId);
+            if(!container) return;
+            
+            if(snap.empty) {
+                container.innerHTML = "<p style='grid-column: 1/-1; text-align:center; opacity:0.6;'>No products found in this section.</p>";
+                return;
+            }
+
+            container.innerHTML = ""; 
+            snap.forEach(doc => {
+                const item = doc.data();
+                const mainImg = (item.images && item.images[0]) ? item.images[0] : 'https://via.placeholder.com/300x400';
+                const formattedPrice = item.price ? item.price.toLocaleString('en-IN') : '0';
+
+                container.innerHTML += `
+                    <div class="product-card" onclick="location.href='product-detail.html?id=${doc.id}'">
+                        <div class="img-wrapper">
+                            <img src="${mainImg}" loading="lazy" alt="${item.name}">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">${item.name}</div>
+                            <div class="price">₹${formattedPrice}</div>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        // Run both on load
+        initSliders();
+        loadHomeContent();
+    </script>
 </body>
 </html>
